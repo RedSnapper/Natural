@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="library" method="upgrade" >
+	<name>Natural Library</name>
+	<libraryname>natural</libraryname>
+	<author>Ben Griffin</author>
+	<creationDate>21st February 2014</creationDate>
+	<version>2014.030401</version>
+	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>ben@redsnapper.net</authorEmail>
+	<authorUrl>www.redsnapper.net</authorUrl>
+	<description>These are the over-riding classes to xpath-enabled natural views.</description>
+	<files>
+		<filename>index.html</filename>
+		<filename>documenthtml.php</filename>
+		<filename>html.php</filename>
+		<folder>view</folder>
+		<folder>mod</folder>
+	</files>
+</extension>

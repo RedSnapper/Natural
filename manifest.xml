@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.2" method="upgrade" >
+	<name>Sustem - Natural Package</name>
+	<packagename>Natural</packagename>
+	<author>Ben Griffin</author>
+	<creationDate>21st February 2014</creationDate>
+	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>2014.030401</version>
+	<authorEmail>ben@redsnapper.net</authorEmail>
+	<authorUrl>www.redsnapper.net</authorUrl>
+	<description>
+	'Natural' enables xpath-enabled natural view management.
+	Docs will be provided.
+	</description>
+	<files>
+		<file type="library" id="natural" >lib_natural.zip</file>
+		<file type="plugin" id="natural" group="system">plg_natural.zip</file>
+		<file type="module" id="natural" group="system">mod_natural.zip</file>
+		<file type="template" id="natural" group="system">tpl_natural.zip</file>
+	</files>
+</extension>
