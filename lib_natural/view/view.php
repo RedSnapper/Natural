@@ -81,15 +81,18 @@ class NView {
 					$this->initXPath();
 				} break;
 				case "file": {
-					if (empty($value)) {
+					if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
 						$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
+					} else {
+						$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+					}
+					if (empty($value)) {
 						$xview= str_replace(".php",".xhtml",$bt[0]['file']);
 					} else {
 						if (! strpos($value,'.')) {
 							$value .= '.xhtml';
 						}
 						if (!file_exists($value)) {
-							$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
 							$xview = dirname($bt[0]['file']) . '/' . $value;
 	 					} else {
 							$xview = $value;
@@ -97,7 +100,6 @@ class NView {
 					}
 					if (file_exists($xview)) {
 						$this->initDoc();
-//						$this->doc->Load($xview);
 						$data = file_get_contents($xview);
 						$wss = array("\r\n", "\n", "\r", "\t"); //what we will remove
 						$data = str_replace($wss,"", $data);
@@ -216,84 +218,112 @@ class NView {
 		//replace node at string xpath with node 'value'.
 		//set the gap.
 		set_error_handler(array($this,'onParseMsg'), E_ALL | E_STRICT );
-		$gap = self::GAP_NONE;
-		if (substr($xpath,-6)=="-gap()") {
-			$xpath = substr($xpath,0,-6); //remove the -gap();
-			if (substr($xpath,-6)=="/child") {
-				$xpath = substr($xpath,0,-6); //remove the child;
-				$gap=self::GAP_CHILD;
-			}
-			if (substr($xpath,-10)=="/preceding") {
-				$xpath = substr($xpath,0,-10); //remove the child;
-				$gap=self::GAP_PRECEDING;
-			}
-			if (substr($xpath,-10)=="/following") {
-				$xpath = substr($xpath,0,-10); //remove the child;
-				$gap=self::GAP_FOLLOWING;
-			}
-		}
-		//now act according to value type.
-		switch ( gettype($value) ) {
-			case "NULL": {
-				if ($gap==self::GAP_NONE) {
-					$entries = $this->xp->query($xpath);
-					if ($entries) {
-						foreach($entries as $entry) {
-							$n = $entry->parentNode->removeChild($entry);
-							unset($n); //not sure if this is needed..
-						}
-					} else {
-						$this->onParseMsg($xpath);
-					}
+		if (isset($this->xp)) {
+			$gap = self::GAP_NONE;
+			if (substr($xpath,-6)=="-gap()") {
+				$xpath = substr($xpath,0,-6); //remove the -gap();
+				if (substr($xpath,-6)=="/child") {
+					$xpath = substr($xpath,0,-6); //remove the child;
+					$gap=self::GAP_CHILD;
 				}
-			} break;
-			case "boolean":
-			case "integer":
-			case "double":
-			case "string":
-			case "double":
-			case "object" : { //probably a node.
-				if ( gettype($value) != "object" || is_subclass_of($value,'DOMNode') || $value instanceof DOMNodeList || $value instanceof NView ) {
-					$entries = $this->xp->query($xpath);
-					if ($entries) {
-						if ( $entries->length == 0 && $gap == self::GAP_NONE) { //maybe this is a new attribute!?
-							$spoint = strrpos($xpath,'/');
-							$apoint = strrpos($xpath,'@');
-							if ( $apoint == $spoint+1 ) {
-								$aname= substr($xpath,$apoint+1); //grab the attribute name.
-								$xpath= substr($xpath,0,$spoint); //resize the xpath.
-								$gap=self::GAP_NATTR;
+				if (substr($xpath,-10)=="/preceding") {
+					$xpath = substr($xpath,0,-10); //remove the child;
+					$gap=self::GAP_PRECEDING;
+				}
+				if (substr($xpath,-10)=="/following") {
+					$xpath = substr($xpath,0,-10); //remove the child;
+					$gap=self::GAP_FOLLOWING;
+				}
+			}
+			//now act according to value type.
+			switch ( gettype($value) ) {
+				case "NULL": {
+					if ($gap==self::GAP_NONE) {
+						$entries = $this->xp->query($xpath);
+						if ($entries) {
+							foreach($entries as $entry) {
+								$n = $entry->parentNode->removeChild($entry);
+								unset($n); //not sure if this is needed..
 							}
-							$entries = $this->xp->query($xpath);
-							if (!$entries) {
-								$this->onParseMsg($xpath);
+						} else {
+							$this->onParseMsg($xpath);
+						}
+					}
+				} break;
+				case "boolean":
+				case "integer":
+				case "double":
+				case "string":
+				case "double":
+				case "object" : { //probably a node.
+					if ( gettype($value) != "object" || is_subclass_of($value,'DOMNode') || $value instanceof DOMNodeList || $value instanceof NView ) {
+						$entries = $this->xp->query($xpath);
+						if ($entries) {
+							if ( $entries->length == 0 && $gap == self::GAP_NONE) { //maybe this is a new attribute!?
+								$spoint = strrpos($xpath,'/');
+								$apoint = strrpos($xpath,'@');
+								if ( $apoint == $spoint+1 ) {
+									$aname= substr($xpath,$apoint+1); //grab the attribute name.
+									$xpath= substr($xpath,0,$spoint); //resize the xpath.
+									$gap=self::GAP_NATTR;
+								}
+								$entries = $this->xp->query($xpath);
+								if (!$entries) {
+									$this->onParseMsg($xpath);
+								}
 							}
-						}
-						if ($value instanceof NView) {
-							$value = $value->doc->documentElement;
-						}
-						foreach($entries as $entry) {
-							if ( $gap == self::GAP_NATTR && $entry->nodeType==XML_ELEMENT_NODE && isset($aname) ) {
-								$entry->setAttribute($aname,htmlspecialchars(utf8_encode($value),ENT_COMPAT,'',false));
-							} else {
-								if ($entry->nodeType == XML_ATTRIBUTE_NODE && gettype($value) != "object" ) {
-									switch ($gap) {
-										case self::GAP_NONE: {
-											$entry->value = utf8_encode($value);
-										} break;
-										case self::GAP_PRECEDING: {
-											$entry->value = utf8_encode($value) . $entry->value ;
-										} break;
-										case self::GAP_FOLLOWING:
-										case self::GAP_CHILD: {
-											$entry->value .= utf8_encode($value);
-										} break;
-									}
+							if ($value instanceof NView) {
+								$value = $value->doc->documentElement;
+							}
+							foreach($entries as $entry) {
+								if ( $gap == self::GAP_NATTR && $entry->nodeType==XML_ELEMENT_NODE && isset($aname) ) {
+									$entry->setAttribute($aname,htmlspecialchars(utf8_encode($value),ENT_COMPAT,'',false));
 								} else {
-									if ($value instanceof DOMNodeList) {
-										foreach($value as $nodi) {
-											$nodc = $nodi->cloneNode(true);
-											$node = $this->doc->importNode($nodc, true);
+									if ($entry->nodeType == XML_ATTRIBUTE_NODE && gettype($value) != "object" ) {
+										switch ($gap) {
+											case self::GAP_NONE: {
+												$entry->value = utf8_encode($value);
+											} break;
+											case self::GAP_PRECEDING: {
+												$entry->value = utf8_encode($value) . $entry->value ;
+											} break;
+											case self::GAP_FOLLOWING:
+											case self::GAP_CHILD: {
+												$entry->value .= utf8_encode($value);
+											} break;
+										}
+									} else {
+										if ($value instanceof DOMNodeList) {
+											foreach($value as $nodi) {
+												$nodc = $nodi->cloneNode(true);
+												$node = $this->doc->importNode($nodc, true);
+												switch ($gap) {
+													case self::GAP_NONE: {
+														$entry->parentNode->replaceChild($node, $entry);
+													} break;
+													case self::GAP_PRECEDING: {
+														$entry->parentNode->insertBefore($node, $entry);
+													} break;
+													case self::GAP_FOLLOWING: {
+														if ($entry->nextSibling == NULL) {
+															$entry->parentNode->appendChild($node);
+														} else {
+															$entry->parentNode->insertBefore($node,$entry->nextSibling);
+														}
+													} break;
+													case self::GAP_CHILD: {
+														$entry->appendChild($node);
+													} break;
+												}
+											}
+										} else {
+											if (gettype($value) != "object" ) {
+												$nodf = $this->strToNode('' . $value);
+												$node = $this->doc->importNode($nodf, true);
+											} else {
+												$nodc = $value->cloneNode(true);
+												$node = $this->doc->importNode($nodc, true);
+											}
 											switch ($gap) {
 												case self::GAP_NONE: {
 													$entry->parentNode->replaceChild($node, $entry);
@@ -313,49 +343,27 @@ class NView {
 												} break;
 											}
 										}
-									} else {
-										if (gettype($value) != "object" ) {
-											$nodf = $this->strToNode('' . $value);
-											$node = $this->doc->importNode($nodf, true);
-										} else {
-											$nodc = $value->cloneNode(true);
-											$node = $this->doc->importNode($nodc, true);
-										}
-										switch ($gap) {
-											case self::GAP_NONE: {
-												$entry->parentNode->replaceChild($node, $entry);
-											} break;
-											case self::GAP_PRECEDING: {
-												$entry->parentNode->insertBefore($node, $entry);
-											} break;
-											case self::GAP_FOLLOWING: {
-												if ($entry->nextSibling == NULL) {
-													$entry->parentNode->appendChild($node);
-												} else {
-													$entry->parentNode->insertBefore($node,$entry->nextSibling);
-												}
-											} break;
-											case self::GAP_CHILD: {
-												$entry->appendChild($node);
-											} break;
-										}
 									}
 								}
 							}
-						}
-						if ( gettype($value) != "object" || $value->nodeType == XML_TEXT_NODE && $gap != self::GAP_NONE) {
-							$this->doc->normalizeDocument();
+							if ( gettype($value) != "object" || $value->nodeType == XML_TEXT_NODE && $gap != self::GAP_NONE) {
+								$this->doc->normalizeDocument();
+							}
+						} else {
+							$this->onParseMsg($xpath);
 						}
 					} else {
-						$this->onParseMsg($xpath);
+						$this->onParseMsg("NView: Unknown value type of object ". gettype($value) ." found");
 					}
-				} else {
-					print ("Unknown value type of object ". gettype($value) ." found");
+				} break;
+				default: { //treat as text.
+					$this->onParseMsg("NView: Unknown value type of object ". gettype($value) ." found");
 				}
-			} break;
-			default: { //treat as text.
-					print ("Unknown value type of object ". gettype($value) ." found");
 			}
+		}
+		else
+		{
+			$this->onParseMsg("NView:: xp was not instantiated properly. set() cannot work.");
 		}
 		restore_error_handler();
 		return $this; //for method chaining.

@@ -1,4 +1,4 @@
 JSuite
 ======
 
-Joomla Suite
+Joomla Suite of Natural View.
