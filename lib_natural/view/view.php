@@ -136,6 +136,7 @@ class NView {
 	public function doc() {
 		return $this->doc->documentElement;
 	}
+
 	public function show($asdocument = FALSE) {
 		$this->showMessages();
 		if (is_null($this->doc)) {
@@ -168,6 +169,7 @@ class NView {
 		restore_error_handler();
 		return $fnode;
 	}
+
 	public function count($xpath) {
 		$entries = $this->xp->query($xpath);
 		if ($entries) {
@@ -209,6 +211,7 @@ class NView {
 		restore_error_handler();
 		return $retval;
 	}
+
 	public function set($xpath,$value = NULL) {
 		//replace node at string xpath with node 'value'.
 		//set the gap.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="3.2" method="upgrade" >
-	<name>Sustem - Natural Package</name>
+	<name>System - Natural Package</name>
 	<packagename>Natural</packagename>
 	<author>Ben Griffin</author>
 	<creationDate>21st February 2014</creationDate>
