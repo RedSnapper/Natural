@@ -1,4 +1,3 @@
-JSuite
+Natural
 ======
-
-Joomla Suite of Natural View.
+Joomla Package of Natural View.
