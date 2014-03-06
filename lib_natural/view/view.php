@@ -82,13 +82,15 @@ class NView {
 				} break;
 				case "file": {
 					if (empty($value)) {
-						$xview= str_replace(".php",".xhtml",debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1)[0]['file']);
+						$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
+						$xview= str_replace(".php",".xhtml",$bt[0]['file']);
 					} else {
 						if (! strpos($value,'.')) {
 							$value .= '.xhtml';
 						}
 						if (!file_exists($value)) {
-							$xview = dirname(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1)[0]['file']) . '/' . $value;
+							$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
+							$xview = dirname($bt[0]['file']) . '/' . $value;
 	 					} else {
 							$xview = $value;
 						}
