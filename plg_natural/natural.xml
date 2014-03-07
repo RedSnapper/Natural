@@ -10,7 +10,7 @@
 		This allows for xpaths-enabled natural views.
 	</description>
 	<files>
-		<filename plugin="natural">plg_natural.php</filename>
+		<filename plugin="natural">natural.php</filename>
 		<filename>index.html</filename>
 	</files>
 </extension>
