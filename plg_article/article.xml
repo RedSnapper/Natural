@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="content" method="upgrade">
+	<name>Content - Article</name>
+	<author>Ben Griffin</author>
+	<creationDate>21st February 2014</creationDate>
+	<version>2014.022101</version>
+	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>My go at a content article override</description>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_content_article.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_article.sys.ini</language>
+	</languages>
+
+	<files>
+		<folder>language</folder>
+		<folder>forms</folder>
+		<filename plugin="article">article.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="article_thing"
+					type="text"
+					label="Example Param"
+					description="An example plugin parameter "
+					/>
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="attribs" label="PLG_CONTENT_ARTICLE_SMALL" >
+		<fieldset name="attribs" label="PLG_CONTENT_ARTICLE_SMALL">
+			<field name="mumore" type="text" label="PLG_CONTENT_ARTICLE_MORE"
+				description="More"
+				class="inputbox" size="40" />
+			<field name="muval" type="text" label="PLG_CONTENT_ARTICLE_VALUE"
+				description="Val"
+				class="inputbox span12"
+				size="45" />
+		</fieldset>
+	</fields>
+</form>

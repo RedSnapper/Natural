@@ -17,9 +17,16 @@ foreach ($this->items as $item) {
 		default: {
 			if(empty($item->xreference)) {
 				$i = new NView($s,'class'); //copy section
+				$p = $item->params;
 				$i->set("//h:h3/comment()",$item->title );
 				$i->set("//h:section/comment()",$item->text);
 				$v->set("//h:article/child-gap()",$i);
+				$mutext = $item->params->get('mutext','');
+				$mumore = $item->params->get('mumore','');
+				$muval = $item->params->get('muval','');
+				if(empty($muval)) { $v->set("//h:p[3]"); } else { $v->set("//h:p[3]/child-gap()",$muval); }
+				if(empty($mumore)) { $v->set("//h:p[2]"); } else { $v->set("//h:p[2]/child-gap()",$mumore); }
+				if(empty($mutext)) { $v->set("//h:p[1]"); } else { $v->set("//h:p[1]/child-gap()",$mutext); }
 			} else {
 				$v->set("//h:article/child-gap()",Catmod::render($item->xreference,$item));
 			}
