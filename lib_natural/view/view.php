@@ -1,29 +1,50 @@
 <?php
+/**
+ * @package     LibNatural
+ * @subpackage  NView
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Red Snapper Ltd. All rights reserved.
+ * @license     GNU General Public License version 3 or later; see LICENSE
+ */
+
 defined('JPATH_PLATFORM') or die;
-mb_internal_encoding( 'UTF-8' );
+mb_internal_encoding('UTF-8');
 
 JLoader::import('joomla.utilities.utility');
 JLoader::import('joomla.document.document');
 
 /**
- * This provides support for xpaths and uses a DOMDocument instead of a string
-**/
-
-class NView {
-//private GAPS 'enum' used for managing xpathing.
+ * NView class, provides DomNode and easy XPath support
+ *
+ * (private) members:
+ * xp is the xpath manager
+ * doc is the internal DOMDocument
+ * msgs is the (error) message array.
+ *
+ * @package  LibNatural
+ * @since    3.2
+ */
+class NView
+{
 	const GAP_NONE = 1;
 	const GAP_FOLLOWING = 2;
 	const GAP_PRECEDING = 3;
 	const GAP_CHILD = 4;
 	const GAP_NATTR = 5;
 
-// class members
-	private $xp = NULL;				//xpath manager
-	private $doc = NULL;			//DOMDocument (replaces _template)
-	protected $xmlmsgs = array();	//parse messages.
+	private $xp = null;
+	private $doc = null;
+	protected $msgs = array();
+
+	public function __clone()
+    {
+		$this->initDoc();
+		$this->doc = $this->doc->cloneNode(true);
+		$this->initXPath();
+    }
 
 	public function __construct($value = '') {
-		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT );
+		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT);
 		try {
 			switch(gettype($value)) {
 				case 'NULL':
@@ -45,7 +66,7 @@ class NView {
 				}
 			}
 		} catch (Exception $e) {
-			$this->xmlmsgs[] = array($e->getCode(),$e->getMessage(),$e->getFile(), $e->getLine()); //this adds to the array.
+			$this->doMsg($e->getCode(),"NView: " . $e->getMessage(),$e->getFile(), $e->getLine());
 		}
 		restore_error_handler();
 	}
@@ -54,7 +75,7 @@ class NView {
 		return $this->doc->documentElement;
 	}
 
-	public function show($asdocument = FALSE) {
+	public function show($asdocument = false) {
 		$this->showMessages();
 		if (is_null($this->doc) || is_null($this->xp)) {
 			echo '';
@@ -67,17 +88,17 @@ class NView {
 				$s1='/<\?xml version="1.0"\?>/';
 				$s2='/<!DOCTYPE \w+>/';
 				$s3='/\sxmlns="http:\/\/www.w3.org\/1999\/xhtml"/';
-				$ksub = array($s1 => '', $s2 => '', $s3 => '');
-				echo trim(preg_replace(array_keys($ksub),array_values($ksub),$hs));
+				$ksub = array($s1, $s2, $s3);
+				echo trim(preg_replace($ksub,'',$hs));
 			}
 		}
 	}
 
-	public function strToNode($value = NULL) {
+	public function strToNode($value = null) {
 		//bad Joomla! One should always xml-encode ampersands in URLs in HTML.
 		$fragstr = preg_replace('/&(?![\w#]{1,7};)/i','&amp;',$value);
 		$fnode = $this->doc->createDocumentFragment();
-		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT );
+		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT);
 		try {
 			$fnode->appendXML($fragstr);
 		} catch (Exception $ex) {
@@ -88,7 +109,7 @@ class NView {
 		return $fnode;
 	}
 
-	public function count($xpath,$ref = NULL) {
+	public function count($xpath,$ref = null) {
 		if (!is_null($this->doc) && !is_null($this->xp)) {
 			if (is_null($ref)) {
 				$entries = $this->xp->query($xpath);
@@ -98,37 +119,36 @@ class NView {
 			if ($entries) {
 				return $entries->length;
 			} else {
-				$this->doMsg($xpath);
+				$this->doMsg('NView: count() ' . $xpath . ' failed.');
 				return 0;
 			}
 		} else {
-			$this->doMsg('count() ' . $xpath . ' attempted on a non-document.');
+			$this->doMsg('NView: count() ' . $xpath . ' attempted on a non-document.');
 		}
 	}
 
-//helper function..
-	public function consume($xpath, $ref = NULL) {
-		$retval = $this->get($xpath, $ref);
+	public function consume($xpath, $ref = null) {
+		$retval = clone $this->get($xpath, $ref);
 		$this->set($xpath,'',$ref);
 		return $retval;
 	}
 
-	public function get($xpath, $ref = NULL) {
-		$retval = NULL;
+	public function get($xpath, $ref = null) {
+		$retval = null;
 		if (!is_null($this->doc) && !is_null($this->xp)) {
-			set_error_handler(array($this,'doMsg'), E_ALL | E_STRICT );
+			set_error_handler(array($this,'doMsg'),E_ALL | E_STRICT);
 			if (is_null($ref)) {
 				$entries = $this->xp->query($xpath);
 			} else {
 				$entries = $this->xp->query($xpath,$ref);
 			}
 			if ($entries) {
-				switch ( $entries->length ) {
+				switch ($entries->length) {
 					case 1: {
 						$entry = $entries->item(0);
-						if ($entry->nodeType == XML_TEXT_NODE ) {
+						if ($entry->nodeType == XML_TEXT_NODE) {
 							$retval = $entry->nodeValue;
-						} elseif ( $entry->nodeType == XML_ATTRIBUTE_NODE ) {
+						} elseif ($entry->nodeType == XML_ATTRIBUTE_NODE) {
 							$retval = $entry->value;
 						} else {
 							$retval = $entry;
@@ -140,18 +160,18 @@ class NView {
 					} break;
 				}
 			} else {
-				$this->doMsg($xpath);
+				$this->doMsg('NView::get() ' . $xpath . ' failed.');
 			}
 			restore_error_handler();
 		} else {
-			$this->doMsg('get() ' . $xpath . ' attempted on a non-document.');
+			$this->doMsg('NView::get() ' . $xpath . ' attempted on a non-document.');
 		}
 		return $retval;
 	}
 
-	public function set($xpath,$value = NULL,$ref = NULL) {
+	public function set($xpath,$value = null,$ref = null) {
 		//replace node at string xpath with node 'value'.
-		set_error_handler(array($this,'doMsg'), E_ALL | E_STRICT );
+		set_error_handler(array($this,'doMsg'), E_ALL | E_STRICT);
 		if (!is_null($this->doc) && !is_null($this->xp)) {
 			$gap = self::GAP_NONE;
 			if (substr($xpath,-6)=="-gap()") {
@@ -170,7 +190,7 @@ class NView {
 				}
 			}
 			//now act according to value type.
-			switch ( gettype($value) ) {
+			switch (gettype($value)) {
 				case "NULL": {
 					if ($gap==self::GAP_NONE) {
 						if (is_null($ref)) {
@@ -184,7 +204,7 @@ class NView {
 								unset($n); //not sure if this is needed..
 							}
 						} else {
-							$this->doMsg($xpath);
+							$this->doMsg('NView::set() ' . $xpath . ' failed.');
 						}
 					}
 				} break;
@@ -194,17 +214,17 @@ class NView {
 				case "string":
 				case "double":
 				case "object" : { //probably a node.
-					if ( gettype($value) != "object" || is_subclass_of($value,'DOMNode') || $value instanceof DOMNodeList || $value instanceof NView ) {
+					if (gettype($value) != "object" || is_subclass_of($value,'DOMNode') || $value instanceof DOMNodeList || $value instanceof NView) {
 						if (is_null($ref)) {
 							$entries = $this->xp->query($xpath);
 						} else {
 							$entries = $this->xp->query($xpath,$ref);
 						}
 						if ($entries) {
-							if ( $entries->length == 0 && $gap == self::GAP_NONE) { //maybe this is a new attribute!?
+							if ($entries->length == 0 && $gap == self::GAP_NONE) { //maybe this is a new attribute!?
 								$spoint = strrpos($xpath,'/');
 								$apoint = strrpos($xpath,'@');
-								if ( $apoint == $spoint+1 ) {
+								if ($apoint == $spoint+1) {
 									$aname= substr($xpath,$apoint+1); //grab the attribute name.
 									$xpath= substr($xpath,0,$spoint); //resize the xpath.
 									$gap=self::GAP_NATTR;
@@ -215,17 +235,17 @@ class NView {
 									$entries = $this->xp->query($xpath,$ref);
 								}
 								if (!$entries) {
-									$this->doMsg($xpath);
+									$this->doMsg('NView::set() ' . $xpath . ' failed.');
 								}
 							}
 							if ($value instanceof NView) {
 								$value = $value->doc->documentElement;
 							}
 							foreach($entries as $entry) {
-								if ( $gap == self::GAP_NATTR && $entry->nodeType==XML_ELEMENT_NODE && isset($aname) ) {
+								if ($gap == self::GAP_NATTR && $entry->nodeType==XML_ELEMENT_NODE && isset($aname)) {
 									$entry->setAttribute($aname,htmlspecialchars(utf8_encode($value),ENT_COMPAT,'',false));
 								} else {
-									if ($entry->nodeType == XML_ATTRIBUTE_NODE && gettype($value) != "object" ) {
+									if ($entry->nodeType == XML_ATTRIBUTE_NODE && gettype($value) != "object") {
 										switch ($gap) {
 											case self::GAP_NONE: {
 												$entry->value = utf8_encode($value);
@@ -251,7 +271,7 @@ class NView {
 														$entry->parentNode->insertBefore($node, $entry);
 													} break;
 													case self::GAP_FOLLOWING: {
-														if ($entry->nextSibling == NULL) {
+														if ($entry->nextSibling == null) {
 															$entry->parentNode->appendChild($node);
 														} else {
 															$entry->parentNode->insertBefore($node,$entry->nextSibling);
@@ -263,7 +283,7 @@ class NView {
 												}
 											}
 										} else {
-											if (gettype($value) != "object" ) {
+											if (gettype($value) != "object") {
 												$nodf = $this->strToNode('' . $value);
 												$node = $this->doc->importNode($nodf, true);
 											} else {
@@ -278,7 +298,7 @@ class NView {
 													$entry->parentNode->insertBefore($node, $entry);
 												} break;
 												case self::GAP_FOLLOWING: {
-													if ($entry->nextSibling == NULL) {
+													if ($entry->nextSibling == null) {
 														$entry->parentNode->appendChild($node);
 													} else {
 														$entry->parentNode->insertBefore($node,$entry->nextSibling);
@@ -292,11 +312,11 @@ class NView {
 									}
 								}
 							}
-							if ( gettype($value) != "object" || $value->nodeType == XML_TEXT_NODE && $gap != self::GAP_NONE) {
+							if (gettype($value) != "object" || $value->nodeType == XML_TEXT_NODE && $gap != self::GAP_NONE) {
 								$this->doc->normalizeDocument();
 							}
 						} else {
-							$this->doMsg($xpath);
+							$this->doMsg('NView::set() ' . $xpath . ' failed.');
 						}
 					} else {
 						$this->doMsg("NView: Unknown value type of object ". gettype($value) ." found");
@@ -319,10 +339,10 @@ class NView {
 	* private functions
 	*/
 	private function showMessages() { //returns parser messages and flushes.
-		if ( count($this->xmlmsgs) !== 0) {
+		if (count($this->msgs) !== 0) {
 			$app = JFactory::getApplication();
-			foreach($this->xmlmsgs as $m) {
-				if ( $m[3] == 0) {
+			foreach($this->msgs as $m) {
+				if ($m[3] == 0) {
 					$msg = "<p><b>" . $m[0] . "</b></p>";
 				} else {
 					$msg = "<p><i>" . $m[2] . "</i> Line: <i>" . $m[3] . "</i>; <b>" . $m[1] . "</b></p>";
@@ -352,10 +372,10 @@ class NView {
 	}
 
 	private function con_node($value) {
-		if ( $value->nodeType == XML_DOCUMENT_NODE ) {
+		if ($value->nodeType == XML_DOCUMENT_NODE) {
 			$this->doc = $value->cloneNode(true);
 			$this->initXPath();
-		} elseif ( $value->nodeType == XML_ELEMENT_NODE ) {
+		} elseif ($value->nodeType == XML_ELEMENT_NODE) {
 			$this->initDoc();
 			$node = $this->doc->importNode($value, true);
 			$this->doc->appendChild($node);
@@ -372,7 +392,7 @@ class NView {
 			}
 			$this->initXPath();
 		} else {
-			$this->doMsg("NView:: __construct does not (yet) support construction from nodes of type " . $value->nodeType );
+			$this->doMsg("NView:: __construct does not (yet) support construction from nodes of type " . $value->nodeType);
 		}
 	}
 
@@ -385,7 +405,7 @@ class NView {
 		if (empty($value)) {
 			$xview= str_replace(".php",".xhtml",$bt[2]['file']);
 		} else {
-			if (! strpos($value,'.')) {
+			if (strpos($value,'.') === false) {
 				$value .= '.xhtml';
 			}
 			if (!file_exists($value)) {
@@ -412,7 +432,7 @@ class NView {
 		// If there is no value, look for a file adjacent to this.
 		if (empty($value)) {
 			$this->con_file($value); //handle implicit in file..
-		} elseif (!strpos($value,'<')) {
+		} elseif (strpos($value,'<') === false) {
 			$this->con_file($value);
 		} else {
 
@@ -445,8 +465,6 @@ class NView {
 		$entries = $this->xp->query($xq);
 		if ($entries) {
 			foreach($entries as $entry) { $entry->appendChild($this->doc->createTextNode('')); }
-		} else {
-			$this->doMsg($xq);
 		}
 	}
 
@@ -454,7 +472,7 @@ class NView {
 	* parser message handler..
 	*/
 	function doMsg($errno, $errstr='', $errfile='', $errline=0) {
-		$this->xmlmsgs[] = array($errno, $errstr, $errfile, $errline); //this adds to the array.
+		$this->msgs[] = array($errno, $errstr, $errfile, $errline); //this adds to the array.
 	}
 
 

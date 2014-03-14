@@ -56,7 +56,12 @@ class NMod
 			$view = str_replace($wss,"", $view);
 		}
 		$v = new NView($view);
-		eval($ctrl);
+		if (!empty($ctrl)) {
+			if (eval($ctrl) === FALSE) {
+				$app = JFactory::getApplication();
+				$app->enqueueMessage('Module control failed: ' . $ctrl,'error');
+			}
+		}
 		NMod::doModules($v,$a,$p);
 		return $v->show(FALSE); //don't want to render as document, yet.
 	}
