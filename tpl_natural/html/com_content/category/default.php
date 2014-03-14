@@ -6,7 +6,7 @@ JLoader::import('flop', dirname(__FILE__));
 JLoader::import('catmod', dirname(__FILE__));
 
 $v = new NView();	//defaults to this filename.xhtml
-$s = new NView($v->get("//h:section"),'xml'); //load section
+$s = new NView($v->get("//h:section")); //load section
 $v->set("//h:section"); //... and release
 
 foreach ($this->items as $item) {

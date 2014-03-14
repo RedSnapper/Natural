@@ -55,7 +55,7 @@ class NMod
 			$wss   = array("\r\n", "\n", "\r", "\t"); //what we will remove
 			$view = str_replace($wss,"", $view);
 		}
-		$v = new NView($view,"text");
+		$v = new NView($view);
 		eval($ctrl);
 		NMod::doModules($v,$a,$p);
 		return $v->show(FALSE); //don't want to render as document, yet.

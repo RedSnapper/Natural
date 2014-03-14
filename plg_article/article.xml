@@ -2,8 +2,8 @@
 <extension version="3.2" type="plugin" group="content" method="upgrade">
 	<name>Content - Article</name>
 	<author>Ben Griffin</author>
-	<creationDate>21st February 2014</creationDate>
-	<version>2014.022101</version>
+	<creationDate>12th March 2014</creationDate>
+	<version>2014.031201</version>
 	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>My go at a content article override</description>
