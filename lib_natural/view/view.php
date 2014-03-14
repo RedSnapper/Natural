@@ -102,7 +102,7 @@ class NView {
 				return 0;
 			}
 		} else {
-			$this->doMsg('count() ' $xpath . ' attempted on a non-document.');
+			$this->doMsg('count() ' . $xpath . ' attempted on a non-document.');
 		}
 	}
 
@@ -144,7 +144,7 @@ class NView {
 			}
 			restore_error_handler();
 		} else {
-			$this->doMsg('get() ' $xpath . ' attempted on a non-document.');
+			$this->doMsg('get() ' . $xpath . ' attempted on a non-document.');
 		}
 		return $retval;
 	}
@@ -309,7 +309,7 @@ class NView {
 		}
 		else
 		{
-			$this->doMsg('set() ' $xpath . ' attempted on a non-document.');
+			$this->doMsg('set() ' . $xpath . ' attempted on a non-document.');
 		}
 		restore_error_handler();
 		return $this;
