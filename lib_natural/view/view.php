@@ -26,7 +26,7 @@ class NView {
 		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT );
 		try {
 			switch(gettype($value)) {
-				case 'NULL': 
+				case 'NULL':
 				case 'string': {
 					$this->con_string($value);
 				} break;
@@ -49,7 +49,7 @@ class NView {
 		}
 		restore_error_handler();
 	}
-	
+
 	public function doc() {
 		return $this->doc->documentElement;
 	}
@@ -72,7 +72,7 @@ class NView {
 			}
 		}
 	}
-	
+
 	public function strToNode($value = NULL) {
 		//bad Joomla! One should always xml-encode ampersands in URLs in HTML.
 		$fragstr = preg_replace('/&(?![\w#]{1,7};)/i','&amp;',$value);
@@ -89,7 +89,7 @@ class NView {
 	}
 
 	public function count($xpath,$ref = NULL) {
-		if (!is_null($doc) && !is_null($xp)) {
+		if (!is_null($this->doc) && !is_null($this->xp)) {
 			if (is_null($ref)) {
 				$entries = $this->xp->query($xpath);
 			} else {
@@ -109,13 +109,13 @@ class NView {
 //helper function..
 	public function consume($xpath, $ref = NULL) {
 		$retval = $this->get($xpath, $ref);
-		$this->set($xpath,,$ref);
+		$this->set($xpath,'',$ref);
 		return $retval;
 	}
 
 	public function get($xpath, $ref = NULL) {
 		$retval = NULL;
-		if (!is_null($doc) && !is_null($xp)) {
+		if (!is_null($this->doc) && !is_null($this->xp)) {
 			set_error_handler(array($this,'doMsg'), E_ALL | E_STRICT );
 			if (is_null($ref)) {
 				$entries = $this->xp->query($xpath);
@@ -152,7 +152,7 @@ class NView {
 	public function set($xpath,$value = NULL,$ref = NULL) {
 		//replace node at string xpath with node 'value'.
 		set_error_handler(array($this,'doMsg'), E_ALL | E_STRICT );
-		if (!is_null($doc) && !is_null($xp)) {
+		if (!is_null($this->doc) && !is_null($this->xp)) {
 			$gap = self::GAP_NONE;
 			if (substr($xpath,-6)=="-gap()") {
 				$xpath = substr($xpath,0,-6); //remove the -gap();
@@ -314,7 +314,7 @@ class NView {
 		restore_error_handler();
 		return $this;
 	}
-	
+
 	/**
 	* private functions
 	*/
@@ -331,24 +331,26 @@ class NView {
 			}
 		}
 	}
-	
+
 	private function initDoc() {
 		$this->doc = new DOMDocument("1.0","utf-8");
 		$this->doc->preserveWhiteSpace = true;
 		$this->doc->formatOutput = false;
 	}
-	
+
 	private function initXPath() {
 		$this->xp = new DOMXPath($this->doc);
 		$this->xp->registerNamespace("h","http://www.w3.org/1999/xhtml");
 	}
 
 	private function con_class($value) {
-		$this->initDoc();
-		$this->doc = $value->doc->cloneNode(true);
-		$this->initXPath();
+		if (!is_null($value->doc)) {
+			$this->initDoc();
+			$this->doc = $value->doc->cloneNode(true);
+			$this->initXPath();
+		}
 	}
-	
+
 	private function con_node($value) {
 		if ( $value->nodeType == XML_DOCUMENT_NODE ) {
 			$this->doc = $value->cloneNode(true);
@@ -373,21 +375,22 @@ class NView {
 			$this->doMsg("NView:: __construct does not (yet) support construction from nodes of type " . $value->nodeType );
 		}
 	}
-		
+
 	private function con_file($value) {
 		if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-			$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
+			$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,3);
 		} else {
 			$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		}
 		if (empty($value)) {
-			$xview= str_replace(".php",".xhtml",$bt[0]['file']);
+			$xview= str_replace(".php",".xhtml",$bt[2]['file']);
 		} else {
 			if (! strpos($value,'.')) {
 				$value .= '.xhtml';
 			}
 			if (!file_exists($value)) {
-				$xview = dirname($bt[0]['file']) . '/' . $value;
+				//bt[3] is the caller to the construct()
+				$xview = dirname($bt[2]['file']) . '/' . $value;
 			} else {
 				$xview = $value;
 			}
@@ -426,16 +429,16 @@ class NView {
 		if ($value instanceof NView)
 		{
 			$this->con_class($value);
-		} 
+		}
 		elseif (is_subclass_of($value,'DOMNode'))
 		{
 			$this->con_node($value);
-		} 
+		}
 		else {
 			$this->doMsg("NView: object constructor only uses instances of NView or subclasses of DOMNode.");
 		}
 	}
-	
+
 //void elements area, base, br, col, hr, img, input, link, meta, param, command, keygen,source
 	private function tidyView() {
 		$xq = "//*[not(node())][not(self::area or self::base or self::br or self::col or self::hr or self::img or self::input or self::link or self::meta or self::param or self::command or self::keygen or self::source)]";
