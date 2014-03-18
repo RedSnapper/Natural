@@ -458,9 +458,31 @@ class NView
 			$this->doMsg("NView: object constructor only uses instances of NView or subclasses of DOMNode.");
 		}
 	}
+	private function fixHrefs() {
+		//This is a lightweight alias translator using !home or whatever.
+		$xq = "(//*)[starts-with(@href,'!')]";
+		$entries = $this->xp->query($xq);
+		if ($entries) {
+			$urls = array();	//simple cache so that each link is only processed once..
+			$base = JURI::base();
+			$menu = JApplication::getInstance('site')->getMenu();	//assumes front-end..
+			foreach($entries as $entry)
+			{
+				$alias = substr($this->get('@href',$entry),1); //'!foo' --> 'foo'
+				if (isset($urls[$alias])) {
+					$url=$urls[$alias];
+				} else {
+					$url = $base . $menu->getItems('alias','homepage',true)->route;
+					$urls[$alias]=$url;
+				}
+				$alias = $this->set('@href',$url,$entry);
+			}
+		}
+	}
 
 //void elements area, base, br, col, hr, img, input, link, meta, param, command, keygen,source
 	private function tidyView() {
+		$this->fixHrefs();
 		$xq = "//*[not(node())][not(self::area or self::base or self::br or self::col or self::hr or self::img or self::input or self::link or self::meta or self::param or self::command or self::keygen or self::source)]";
 		$entries = $this->xp->query($xq);
 		if ($entries) {
