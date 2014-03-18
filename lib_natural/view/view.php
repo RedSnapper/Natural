@@ -78,18 +78,18 @@ class NView
 	public function show($asdocument = false) {
 		$this->showMessages();
 		if (is_null($this->doc) || is_null($this->xp)) {
-			echo '';
+			return "";
 		} else {
 			$this->tidyView();
 			if ($asdocument) {
-				echo $this->doc->saveXML();
+				return $this->doc->saveXML();
 			} else {
 				$hs=$this->doc->saveXML();
 				$s1='/<\?xml version="1.0"\?>/';
 				$s2='/<!DOCTYPE \w+>/';
 				$s3='/\sxmlns="http:\/\/www.w3.org\/1999\/xhtml"/';
 				$ksub = array($s1, $s2, $s3);
-				echo trim(preg_replace($ksub,'',$hs));
+				return trim(preg_replace($ksub,'',$hs));
 			}
 		}
 	}
