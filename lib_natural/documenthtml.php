@@ -737,6 +737,7 @@ class JDocumentHTML extends JDocument
 				$fragstr = implode($with);
 				$this->nv->set($xpath,$fragstr);
 			}
+			NMod::doModules($this->nv,array(),$this->params);
 			return $this->nv->show(TRUE);
 		}
 	}
