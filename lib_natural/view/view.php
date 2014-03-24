@@ -78,18 +78,18 @@ class NView
 	public function show($asdocument = false) {
 		$this->showMessages();
 		if (is_null($this->doc) || is_null($this->xp)) {
-			echo '';
+			return "";
 		} else {
 			$this->tidyView();
 			if ($asdocument) {
-				echo $this->doc->saveXML();
+				return $this->doc->saveXML();
 			} else {
 				$hs=$this->doc->saveXML();
 				$s1='/<\?xml version="1.0"\?>/';
 				$s2='/<!DOCTYPE \w+>/';
 				$s3='/\sxmlns="http:\/\/www.w3.org\/1999\/xhtml"/';
 				$ksub = array($s1, $s2, $s3);
-				echo trim(preg_replace($ksub,'',$hs));
+				return trim(preg_replace($ksub,'',$hs));
 			}
 		}
 	}
@@ -271,7 +271,7 @@ class NView
 														$entry->parentNode->insertBefore($node, $entry);
 													} break;
 													case self::GAP_FOLLOWING: {
-														if ($entry->nextSibling == null) {
+														if (is_null($entry->nextSibling)) {
 															$entry->parentNode->appendChild($node);
 														} else {
 															$entry->parentNode->insertBefore($node,$entry->nextSibling);
@@ -290,23 +290,26 @@ class NView
 												$nodc = $value->cloneNode(true);
 												$node = $this->doc->importNode($nodc, true);
 											}
-											switch ($gap) {
-												case self::GAP_NONE: {
-													$entry->parentNode->replaceChild($node, $entry);
-												} break;
-												case self::GAP_PRECEDING: {
-													$entry->parentNode->insertBefore($node, $entry);
-												} break;
-												case self::GAP_FOLLOWING: {
-													if ($entry->nextSibling == null) {
-														$entry->parentNode->appendChild($node);
-													} else {
-														$entry->parentNode->insertBefore($node,$entry->nextSibling);
-													}
-												} break;
-												case self::GAP_CHILD: {
-													$entry->appendChild($node);
-												} break;
+											if (!is_null($node->firstChild))
+											{
+												switch ($gap) {
+													case self::GAP_NONE: {
+														$entry->parentNode->replaceChild($node, $entry);
+													} break;
+													case self::GAP_PRECEDING: {
+														$entry->parentNode->insertBefore($node, $entry);
+													} break;
+													case self::GAP_FOLLOWING: {
+														if (is_null($entry->nextSibling)) {
+															$entry->parentNode->appendChild($node);
+														} else {
+															$entry->parentNode->insertBefore($node,$entry->nextSibling);
+														}
+													} break;
+													case self::GAP_CHILD: {
+														$entry->appendChild($node);
+													} break;
+												}
 											}
 										}
 									}
@@ -458,9 +461,31 @@ class NView
 			$this->doMsg("NView: object constructor only uses instances of NView or subclasses of DOMNode.");
 		}
 	}
+	private function fixHrefs() {
+		//This is a lightweight alias translator using !home or whatever.
+		$xq = "(//*)[starts-with(@href,'!')]";
+		$entries = $this->xp->query($xq);
+		if ($entries) {
+			$urls = array();	//simple cache so that each link is only processed once..
+			$base = JURI::base();
+			$menu = JApplication::getInstance('site')->getMenu();	//assumes front-end..
+			foreach($entries as $entry)
+			{
+				$alias = substr($this->get('@href',$entry),1); //'!foo' --> 'foo'
+				if (isset($urls[$alias])) {
+					$url=$urls[$alias];
+				} else {
+					$url = $base . $menu->getItems('alias','homepage',true)->route;
+					$urls[$alias]=$url;
+				}
+				$alias = $this->set('@href',$url,$entry);
+			}
+		}
+	}
 
 //void elements area, base, br, col, hr, img, input, link, meta, param, command, keygen,source
 	private function tidyView() {
+		$this->fixHrefs();
 		$xq = "//*[not(node())][not(self::area or self::base or self::br or self::col or self::hr or self::img or self::input or self::link or self::meta or self::param or self::command or self::keygen or self::source)]";
 		$entries = $this->xp->query($xq);
 		if ($entries) {
