@@ -738,6 +738,8 @@ class JDocumentHTML extends JDocument
 				$this->nv->set($xpath,$fragstr);
 			}
 			NMod::doModules($this->nv,array(),$this->params);
+//			$this->nv->set("(//*)[@data-jmod]"); //clear those that are unused.
+//			$this->nv->set("(//*)[@data-jdoc]"); //and these
 			return $this->nv->show(TRUE);
 		}
 	}
