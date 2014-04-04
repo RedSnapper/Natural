@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2.0" method="upgrade">
+	<name>Menu Composite</name>
+	<author>Ben Griffin</author>
+	<creationDate>02nd April 2014</creationDate>
+	<version>2014.040201</version>
+	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>ben@redsnapper.net</authorEmail>
+	<authorUrl>www.redsnapper.net</authorUrl>
+	<description>Using a menu as a menu-item, composite renders all the menu-items</description>
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>composite.php</filename>
+		<filename>controller.php</filename>
+		<folder>views</folder>
+		<folder>models</folder>
+	</files>
+	<languages folder="site/language">
+        <language tag="en-GB">en-GB/en-GB.com_composite.ini</language>
+    </languages>
+	<administration>
+		<files folder="admin">
+			<filename>index.html</filename>
+			<folder>models</folder>
+		</files>
+		<languages folder="admin/language">
+            <language tag="en-GB">en-GB/en-GB.com_composite.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_composite.sys.ini</language>
+        </languages>
+	</administration>
+</extension>
