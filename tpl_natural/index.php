@@ -20,10 +20,6 @@ $itemid   = $input->getCmd('Itemid', '');
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
-//Add scripts and stylesheets
-$jdoc->addScript('/templates/' .$this->template. '/js/template.js');
-$jdoc->addStyleSheet('/templates/'.$this->template.'/css/template.css');
-
 //Now set the view with parameter, context, and acc. to parameter logic.
 $v->set("/h:html/@lang",$jdoc->language);
 $v->set("/h:html/@dir",$jdoc->direction);

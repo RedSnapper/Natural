@@ -1,16 +1,61 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" class="no-js">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-		<meta charset="utf-8"/>
-		<title>title</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta data-jdoc="head" />
+		<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+		<style type="text/css">h1,h2,h3,h4,h5,h6,.site-title { font-family: 'Open+Sans',sans-serif; }</style>
+		<style type="text/css">
+			body.site {
+				border-top: 3px solid #5396bd;
+				background-color: #f4f6f7
+			}
+			a {
+				color: #5396bd;
+			}
+			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
+			.btn-primary {
+				background: #5396bd;
+			}
+			.navbar-inner {
+				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			}
+		</style>
 	</head>
-	<body>
-		<div class="outer">
-			<main class="clearfix main-content" role="main">
-				<article data-jdoc="component" />
-				<article data-jdoc="message"  />
-				<article data-jdoc="debug"  />
-			</main>
+	<body class="site com_content view-article no-layout no-task" >
+		<div class="body">
+			<div class="container">
+				<header class="header" role="banner">
+					<div class="header-inner clearfix">
+						<div class="brand pull-left">
+							<div data-jdoc="modules" data-name="topleft" />
+						</div>
+						<div class="header-right pull-right">
+							<div data-jdoc="modules" data-name="topright" />
+						</div>
+					</div>
+				</header>
+				<nav class="navigation" role="navigation"><div data-jdoc="modules" data-name="navigation" /></nav>
+				<div data-jdoc="modules" data-name="banner" />
+				<div class="row-fluid">
+					<div id="panel" class="span3">
+						<div data-jdoc="modules" data-name="panel" />
+					</div>
+					<main id="content" role="main" class="span">
+						<h2 data-xp="error_head" />
+						<div data-jdoc="message"  />
+						<code data-xp="error"  />
+						<article data-jdoc="component" />
+					</main>
+					<div id="aside" class="span3"><span data-jdoc="modules" data-name="aside" style="none" /></div>
+				</div>
+			</div>
 		</div>
+		<footer class="footer" role="contentinfo">
+			<span data-jdoc="modules" data-name="footer" />
+		</footer>
+		<div data-jdoc="modules" data-name="debug" style="none" />
 	</body>
 </html>

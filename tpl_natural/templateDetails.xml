@@ -2,8 +2,8 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/2.5/template-install.dtd">
 <extension version="3.2" type="template" client="site" method="upgrade" >
 	<name>Natural</name>
-	<version>2014.0030401</version>
-	<creationDate>04/03/2014</creationDate>
+	<version>2014.0040401</version>
+	<creationDate>04/04/2014</creationDate>
 	<author>Ben Griffin</author>
 	<authorEmail>ben@obyx.org</authorEmail>
 	<copyright>Copyright ©2014 Redsnapper Ltd. All rights reserved.</copyright>
@@ -14,12 +14,9 @@
 		<filename>index.xhtml</filename>
 		<filename>favicon.ico</filename>
 		<filename>error.php</filename>
+		<filename>error.xhtml</filename>
 		<filename>templateDetails.xml</filename>
 		<folder>css</folder>
-		<folder>html</folder>
-		<folder>img</folder>
-		<folder>js</folder>
-		<folder>less</folder>
 	</files>
 	<positions>
 		<position>internal</position>
