@@ -8,16 +8,12 @@ class JFormFieldComposite extends JFormFieldList
 	protected function getOptions()
 	{
 		$app = JApplication::getInstance('site');
-		$mitems  = $app->getMenu()->getMenu();
-		$mtypes = array();
+		$mmodel	= JModelLegacy::getInstance('menus', 'menusModel');
+		$mitems	=  $mmodel->getItems();
 		$options  = array();
-		foreach ($mitems as $item) {
-		  array_push($mtypes,$item->menutype);
-		}
-		$mtypes = array_unique($mtypes);
-		foreach ($mtypes as $key => $value)
+		foreach ($mitems as $item)
 		{
-			$options[] = JHtml::_('select.option', $value, ucfirst($value));
+			$options[] = JHtml::_('select.option', $item->menutype, $item->title);
 		}
 		$options = array_merge(parent::getOptions(), $options);
 		return $options;
