@@ -31,6 +31,7 @@
       <description>Natural Package</description>
       <element>pkg_Natural</element>
       <type>package</type>
+      <client>site</client>
       <version>2014.042303</version>
       <downloads>
          <downloadurl type="full" format="zip">https://github.com/RedSnapper/Natural/blob/master/pkg_natural.zip?raw=true</downloadurl>
