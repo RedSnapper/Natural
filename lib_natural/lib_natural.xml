@@ -4,12 +4,15 @@
 	<libraryname>natural</libraryname>
 	<author>Ben Griffin</author>
 	<creationDate>23 April 2014</creationDate>
-	<version>2014.042301</version>
+	<version>2014.042302</version>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>ben@redsnapper.net</authorEmail>
 	<authorUrl>www.redsnapper.net</authorUrl>
-	<description>These are the over-riding classes to xpath-enabled natural views.</description>
+	<description>
+		These are the over-riding classes to xpath-enabled natural views.
+		Install this as a part of the Natural Package!
+	</description>
 	<files>
 		<filename>index.html</filename>
 		<filename>documenthtml.php</filename>
