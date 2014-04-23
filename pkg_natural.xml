@@ -5,7 +5,7 @@
 	<author>Ben Griffin</author>
 	<creationDate>23 April 2014</creationDate>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
-	<version>2014.042304</version>
+	<version>2014.042305</version>
 	<authorEmail>web@redsnapper.net</authorEmail>
 	<authorUrl>www.redsnapper.net</authorUrl>
 	<description>
@@ -13,12 +13,14 @@
 		The package includes the following bits of kit.
 		lib. natural - which includes the basic xpath functions.
 		plg. natural - which overrides the core classes to support xpaths/composite.
+		plg. ace - syntax highlighting editor
 		mod. natural - which provides a simple MV module environment.
 		com. composite - which provides composite articles.
 	</description>
 	<files>
 		<file type="library" id="lib_natural" >lib_natural.zip</file>
 		<file type="plugin" id="natural" group="system">plg_natural.zip</file>
+		<file type="plugin" id="ace" group="editors">plg_ace.zip</file>
 		<file type="module" id="mod_natural" client="site">mod_natural.zip</file>
 		<file type="component" id="com_composite">com_composite.zip</file>
 	</files>

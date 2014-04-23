@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="editors" method="upgrade">
+	<name>Editors - Ace</name>
+	<author>Ben Griffin</author>
+	<creationDate>21 February 2014</creationDate>
+	<version>2014.022101</version>
+	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>PLG_ACE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="ace">ace.php</filename>
+		<filename>index.html</filename>
+		<folder>ace</folder>
+		<folder>js</folder>
+	</files>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB.plg_editors_ace.ini</language>
+		<language tag="en-GB">language/en-GB.plg_editors_ace.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="syntax" type="radio" default="html" label="PLG_EDITOR_ACE_CONFIG_SYNTAX_LABEL" description="PLG_EDITOR_ACE_CONFIG_SYNATX_DESC">
+					<option value="html">HTML</option>
+					<option value="markdown">MarkDown</option>
+				</field>
+				<field name="showPrintMargin" type="radio" default="false" label="PLG_EDITOR_ACE_CONFIG_PRINTMARGIN_LABEL" description="PLG_EDITOR_ACE_CONFIG_PRINTMARGIN_DESC">
+					<option value="true">on</option>
+					<option value="false">off</option>
+				</field>
+				<field name="showPrintMargin" type="radio" default="false" label="PLG_EDITOR_ACE_CONFIG_PRINTMARGIN_LABEL" description="PLG_EDITOR_ACE_CONFIG_PRINTMARGIN_DESC">
+					<option value="true">on</option>
+					<option value="false">off</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
