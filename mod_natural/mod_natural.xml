@@ -2,8 +2,10 @@
 <extension type="module" version="3.2" client="site" method="upgrade">
 	<name>Natural</name>
 	<author>Ben Griffin</author>
-	<version>20140304.01</version>
-	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<version>2014.042301</version>
+	<creationDate>23 April 2014</creationDate>
+	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
+	<version>2014.042301</version>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>The Natural View module. Depends upon Natural</description>
 	<files>
