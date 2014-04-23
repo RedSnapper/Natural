@@ -23,7 +23,7 @@
 		<file type="component" id="com_composite">com_composite.zip</file>
 	</files>
 	<updateservers>
-		<server extra_query="raw=true" type="extension" priority="1" name="Natural Update Server">https://github.com/RedSnapper/Natural/raw/master/updates.xml</server>
+		<server type="extension" priority="1" name="Natural Update Server">https://github.com/RedSnapper/Natural/raw/master/updates.xml</server>
 	</updateservers>
 </extension>
 
