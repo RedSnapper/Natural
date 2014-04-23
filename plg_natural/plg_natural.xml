@@ -2,12 +2,13 @@
 <extension version="3.2" type="plugin" group="system" method="upgrade" >
 	<name>System - Natural</name>
 	<author>Ben Griffin</author>
-	<creationDate>21st February 2014</creationDate>
+	<creationDate>21 February 2014</creationDate>
 	<version>2014.022101</version>
-	<copyright>Copyright ©2014 Red Snapper Ltd.</copyright>
+	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>
 		This allows for xpaths-enabled natural views.
+		It also overrides classes for com_composite
 	</description>
 	<files>
 		<filename plugin="natural">natural.php</filename>
