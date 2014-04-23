@@ -20,8 +20,9 @@
       <type>package</type>
       <version>2014.042302</version>
       <downloads>
-         <downloadurl type="full" format="zip">https://github.com/RedSnapper/Natural/blob/master/pkg_natural.zip?raw=true</downloadurl>
+         <downloadurl type="full" format="zip">https://github.com/RedSnapper/Natural/blob/master/pkg_natural.zip</downloadurl>
       </downloads>
+      <extra_query>raw=true</extra_query>
       <maintainer>Red Snapper Ltd</maintainer>
       <maintainerurl>http://www.redsnapper.net</maintainerurl>
       <targetplatform name="joomla" version="3.2" />
@@ -34,8 +35,9 @@
       <client>site</client>
       <version>2014.042303</version>
       <downloads>
-         <downloadurl type="full" format="zip">https://github.com/RedSnapper/Natural/blob/master/pkg_natural.zip?raw=true</downloadurl>
+         <downloadurl type="full" format="zip">https://github.com/RedSnapper/Natural/blob/master/pkg_natural.zip</downloadurl>
       </downloads>
+      <extra_query>raw=true</extra_query>
       <maintainer>Red Snapper Ltd</maintainer>
       <maintainerurl>http://www.redsnapper.net</maintainerurl>
       <targetplatform name="joomla" version="3.2" min_dev_level="0" />
