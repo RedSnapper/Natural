@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.2" method="upgrade" >
+	<name>System - Natural Package</name>
+	<packagename>natural</packagename>
+	<author>Ben Griffin</author>
+	<creationDate>23 April 2014</creationDate>
+	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
+	<version>2014.042301</version>
+	<authorEmail>web@redsnapper.net</authorEmail>
+	<authorUrl>www.redsnapper.net</authorUrl>
+	<description>
+	'Natural' enables xpath-enabled natural view management.
+	The package includes the following bits of kit.
+	lib. natural - which includes the basic xpath functions.
+	plg. natural - which overrides the core classes to support xpaths/composite.
+	mod. natural - which provides a simple MV module environment.
+	com. composite - which provides composite articles.
+	</description>
+	<files>
+		<file type="library" id="natural" >lib_natural.zip</file>
+		<file type="plugin" id="natural" group="system">plg_natural.zip</file>
+		<file type="module" id="natural" client="site">mod_natural.zip</file>
+		<file type="component" id="natural">com_composite.zip</file>
+	</files>
+</extension>
