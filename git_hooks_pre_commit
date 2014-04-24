@@ -1,12 +1,30 @@
 #!/bin/sh
-rm -f *.zip
-for i in $(ls -d */); do
-	zip -qr ${i%%/} ${i%%/}
+
+#Set up the zip dirs/filenames for our manifest
+dirs=`for i in $(ls -d *_*/); do echo ${i%%/}; done`
+zips=`for i in $(ls -d *_*/); do echo ${i%%/}.zip; done`
+
+#regenerate zips from the dirs.
+rm -f ${zips}
+for i in ${dirs}; do
+	zip -qr ${i} ${i}
 done
-zip -q pkg_natural.zip pkg_natural.xml *.zip
-for i in $(ls -d */); do
-	rm -f ${i%%/}.zip
-done
+
+#regenerate the contender package.
+zip -q new_natural.zip pkg_natural.xml ${zips}
+
+#get an md5 of both the original pkg and the contender.
+mnew=`md5 -q new_natural.zip`
+mpkg=`md5 -q pkg_natural.zip`
+
+#update pkg if needs be. otherwise reset
+if [ ${mnew:-""} != ${mpkg:-""} ]; then
+	mv new_natural.zip pkg_natural.zip
+else
+	rm pkg_natural.zip
+fi
+#remove unwanted zips.
+rm -f ${zips}
 exit 0
 
 
