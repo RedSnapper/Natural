@@ -19,9 +19,9 @@ mpkg=`stat -f "%m%t%Sm %N" pkg_natural.zip`
 
 #update pkg if needs be. otherwise reset
 if [ "${mnew}" != "${mpkg}" ]; then
-	echo "${mnew} is different from "
-	echo "${mpkg}"
+	echo "adding pkg_natural.zip to commit"
 	mv new_natural.zip pkg_natural.zip
+	git add pkg_natural.zip
 else
 	rm new_natural.zip
 fi
