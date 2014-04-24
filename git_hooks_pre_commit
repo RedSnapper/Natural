@@ -10,9 +10,23 @@ for i in ${dirs}; do
 	zip -oqr ${i} ${i}
 done
 
-#regenerate package.
-zip -oq pkg_natural.zip pkg_natural.xml ${zips}
+#regenerate the contender package.
+zip -oq new_natural.zip pkg_natural.xml ${zips}
 
+#get an md5 of both the original pkg and the contender.
+mnew=`stat -f "%m%t%Sm %N" new_natural.zip | sed 's/new_natural.zip/pkg_natural.zip/'`
+mpkg=`stat -f "%m%t%Sm %N" pkg_natural.zip`
+
+#update pkg if needs be. otherwise reset
+if [ "${mnew}" != "${mpkg}" ]; then
+	echo "${mnew} is different from "
+	echo "${mpkg}"
+	mv new_natural.zip pkg_natural.zip
+else
+	rm new_natural.zip
+fi
 #remove unwanted zips.
 rm -f ${zips}
 exit 0
+
+
