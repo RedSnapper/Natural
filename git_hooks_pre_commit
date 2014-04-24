@@ -1,0 +1,12 @@
+#!/bin/sh
+rm -f *.zip
+for i in $(ls -d */); do
+	zip -qr ${i%%/} ${i%%/}
+done
+zip -q pkg_natural.zip pkg_natural.xml *.zip
+for i in $(ls -d */); do
+	rm -f ${i%%/}.zip
+done
+exit 0
+
+
