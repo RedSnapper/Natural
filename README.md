@@ -11,8 +11,10 @@ Then all the zipped folders need to be zipped up with pkg_natural.xml
 The resulting zipfile is the package.
 Upload it using /administrator/index.php?option=com_installer
 
-MANAGING GIT REPO
+MANAGING GIT REPO - This will automatically package anything that needs packaging.
+What it won't do is generate a new line in the update.xml file.
 =================
 mkdir -p .git/hooks
 cp git_hooks_pre_commit .git/hooks/pre-commit
 chmod 777 .git/hooks/pre-commit
+
