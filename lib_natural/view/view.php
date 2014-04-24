@@ -95,7 +95,8 @@ class NView
 	}
 
 	public function strToNode($value = null) {
-		//bad Joomla! One should always xml-encode ampersands in URLs in HTML.
+		// One should always xml-encode ampersands in URLs in HTML.
+		// Joomla doesn't always do this.
 		$fragstr = preg_replace('/&(?![\w#]{1,7};)/i','&amp;',$value);
 		$fnode = $this->doc->createDocumentFragment();
 		set_error_handler(array($this, 'doMsg'), E_ALL | E_STRICT);
