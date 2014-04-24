@@ -2,7 +2,7 @@
 <updates>
    <update>
       <name>Natural 2014.042304</name>
-      <description>Natural Package</description>
+      <description>Natural Package First Edition</description>
       <element>pkg_Natural</element>
       <type>package</type>
       <client>site</client>
