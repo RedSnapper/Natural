@@ -106,9 +106,7 @@ $p is the set of module parameters.
 
 Modules may be invoked directly within the view component, by using the following markup. ANY element may be used, not just divs.
 
-'''
-<div data-jmod="(module Type)" title="(module Title)" style="(module Style)" data-foo="Foo" data-bar="Bar"></div>
-'''
+`<div data-jmod="(module Type)" title="(module Title)" style="(module Style)" data-foo="Foo" data-bar="Bar"></div>`
 
 (module Type) should be the name of a module type, eg. 'Menu' or 'Natural'.
 (module Title) should be the title of the module to be placed here.
