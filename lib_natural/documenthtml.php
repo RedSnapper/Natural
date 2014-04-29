@@ -3,8 +3,10 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
+ * @note		Added Natural View / XPath support
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+ * @license		GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -693,11 +695,11 @@ class JDocumentHTML extends JDocument
 		return $this;
 	}
 
-	protected function _doJDoc( &$v, &$m, &$f, &$l ) {
-		$type = $v->get("@data-jdoc",$m);
-		$name = $v->get("@data-name",$m);
-		$style = $v->get("@style",$m);
-		$title = $v->get("@title",$m);
+	protected function _doJDoc( &$nv, &$m, &$f, &$l ) {
+		$type = $nv->get("@data-jdoc",$m);
+		$name = $nv->get("@data-name",$m);
+		$style = $nv->get("@style",$m);
+		$title = $nv->get("@title",$m);
 		$attribs = array();
 		if (!empty($style)) { $attribs["style"] = $style; }
 		if (!empty($title)) { $attribs["title"] = title; }

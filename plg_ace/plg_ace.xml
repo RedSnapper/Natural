@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="editors" method="upgrade">
 	<name>Editors - Ace</name>
-	<author>Red Snapper Ltd</author>
+	<author>Sven Bluege; Forked by Ben Griffin 2013</author>
 	<creationDate>21 February 2014</creationDate>
-	<version>2014.022101</version>
-	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
-	<license>GNU General Public License version 2 or later</license>
+	<version>2014.042901</version>
+	<copyright>Copyright ©2012-2014 Sven Bluege.</copyright>
+	<license>GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<description>PLG_ACE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="ace">ace.php</filename>

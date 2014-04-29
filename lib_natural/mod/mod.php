@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     LibNatural
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Red Snapper Ltd. All rights reserved.
+ * @license     GNU General Public License version 3 or later; see LICENSE
+ */
+
 defined('JPATH_PLATFORM') or die;
 mb_internal_encoding( 'UTF-8' );
 
@@ -7,13 +14,13 @@ JLoader::import('html.renderer.modules'); 	//module helper
 class NMod
 {
 /* v is the view instance. mm is a module domnode identified by the attribute @data-jmod */
-	protected static function doModule( &$v, &$mm, &$attribs, &$p, $count = 1 )
+	protected static function doModule( &$nv, &$mm, &$attribs, &$p, $count = 1 )
 	{
 	//hard set attributes in the view override any inherited attributes.
 		$contents="";
-		$name = $v->get("@data-jmod",$mm);
-		$style = $v->get("@style",$mm);
-		$title = $v->get("@title",$mm);
+		$name = $nv->get("@data-jmod",$mm);
+		$style = $nv->get("@style",$mm);
+		$title = $nv->get("@title",$mm);
 		if (!empty($style)) { $attribs["style"] = $style; }
 		if (!empty($title)) { $attribs["title"] = $title; }
 		$prefix = 'data-';
@@ -31,20 +38,20 @@ class NMod
 			$contents = JModuleHelper::renderModule($module, $attribs);
 		}
 		$xpath = "(//*[@data-jmod])[". $count . "]";
-		$v->set($xpath,$contents);
+		$nv->set($xpath,$contents);
 	}
 
-	public static function doModules(&$v,$a = array(),$p)
+	public static function doModules(&$nv,$a = array(),$p)
 	{
-		$mml = $v->get("//*[@data-jmod]");
+		$mml = $nv->get("//*[@data-jmod]");
 		if ($mml instanceof DOMNodeList) {
 			$count = $mml->length;
 			for($pos=$count; $pos > 0 ; $pos-- ) { //xpath uses 1-indexing
-				NMod::doModule( $v, $mml->item($pos - 1), $a, $p, $pos );
+				NMod::doModule( $nv, $mml->item($pos - 1), $a, $p, $pos );
 			}
 		} else {
 			if ($mml instanceof DOMNode) {
-				NMod::doModule( $v, $mml, $a, $p, 1 );
+				NMod::doModule( $nv, $mml, $a, $p, 1 );
 			}
 		}
 	}
@@ -55,7 +62,7 @@ class NMod
 			$wss   = array("\r\n", "\n", "\r", "\t"); //what we will remove
 			$view = str_replace($wss,"", $view);
 		}
-		$v = new NView($view);
+		$nv = new NView($view);
 		if (!empty($ctrl)) {
 			ob_start();
 			try {
@@ -72,7 +79,7 @@ class NMod
 				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code>', error);
 			}
 		}
-		NMod::doModules($v,$a,$p);
+		NMod::doModules($nv,$a,$p);
 		return $v->show(FALSE); //don't want to render as document, yet.
 	}
 

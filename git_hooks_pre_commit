@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+# GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+
 #Set up the zip dirs/filenames for our manifest
 dirs=`for i in $(ls -d *_*/); do echo ${i%%/}; done`
 zips=`for i in $(ls -d *_*/); do echo ${i%%/}.zip; done`

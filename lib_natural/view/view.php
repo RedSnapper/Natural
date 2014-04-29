@@ -1,8 +1,9 @@
 <?php
 /**
  * @package     LibNatural
- * @subpackage  NView
+ * @subpackage  View
  *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @copyright   Copyright (C) 2005 - 2014 Red Snapper Ltd. All rights reserved.
  * @license     GNU General Public License version 3 or later; see LICENSE
  */
@@ -488,57 +489,9 @@ class NView
 		}
 	}
 
-	//Display menu-item composites.
-	private function fixComposites() {
-		$xq = "(//*)[@data-menu]";
-		$entries = $this->xp->query($xq);
-		if ($entries->length > 0) {
-			$app  = JFactory::getApplication();
-			$orig_input = clone $app->input;
-			$app->input->set('hitcount','x');
-			$base = JURI::base();
-			$menu = $app->getMenu();
-			foreach($entries as $entry)
-			{
-				$mtype = $this->get('@data-menu',$entry); //'mainmenu'
-				$m = $menu->getItems('menutype',$mtype);
-				ob_start();
-				foreach ($m as $i) {
-					$app->input->set('Itemid',$i->id);
-					foreach ($i->query as $key => $value) {
-						$app->input->set($key,$value);
-					}
-					$cpath = JPATH_BASE . '/components/' . $i->component ;
-					$vname = $i->query['view'];
-					$dpath = 'components.' . $i->component;
-					JLoader::import($dpath. '.controller', JPATH_BASE );
-					JLoader::import($dpath . '.models.' . $vname, JPATH_BASE );
-					JLoader::import($dpath . '.models.category', JPATH_BASE );
-					JLoader::import($dpath . '.helpers.route', JPATH_BASE );
-					JFormHelper::addFormPath($cpath . '/models/' . 'forms');
-					JFormHelper::addFormPath($cpath . '/models/' . 'form');
-					$cbase = substr($i->query['option'],4);
-					$cclass= ucfirst($cbase) . 'Controller';
-					$jc = new $cclass();
-					$jc->addViewPath($cpath . '/views/');
-					$jm = $jc->getModel($vname,'',array('ignore_request' => true));
-					$jm->setState( $cbase . '.id', $i->query['id']);
-					$jv = $jc->getView($vname,'html','',array('layout' => 'default','base_path' => $cpath));
-					$jc->display();
-				}
-				$entry->appendChild($this->doc->importNode($this->strToNode(ob_get_contents()),true));
-				ob_end_clean();
-			}
-			$app->input = $orig_input;
-			$this->set("(//*)[@data-menu]/@data-menu" ); //remove data-menu attributes.
-		}
-	}
-
-
 //void elements area, base, br, col, hr, img, input, link, meta, param, command, keygen,source
 	private function tidyView() {
 		$this->fixHrefs();
-		$this->fixComposites();
 		$xq = "//*[not(node())][not(self::area or self::base or self::br or self::col or self::hr or self::img or self::input or self::link or self::meta or self::param or self::command or self::keygen or self::source)]";
 		$entries = $this->xp->query($xq);
 		if ($entries) {

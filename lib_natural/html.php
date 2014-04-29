@@ -1,9 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries (MONKEY-PATCH)
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
+ * @note JHtml  MONKEY-PATCH cf. #3224 - Tracker# 32989
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Red Snapper Ltd. All rights reserved.
+ *
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 

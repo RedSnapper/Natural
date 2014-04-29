@@ -3,9 +3,12 @@
 	<name>Natural Library</name>
 	<libraryname>natural</libraryname>
 	<author>Red Snapper Ltd</author>
-	<creationDate>23 April 2014</creationDate>
-	<version>2014.042304</version>
-	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
+	<creationDate>29 April 2014</creationDate>
+	<version>2014.042901</version>
+	<copyright>Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+	Some files contain sourcecode under the following copyright
+	Copyright ©2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>web@redsnapper.net</authorEmail>
 	<authorUrl>www.redsnapper.net</authorUrl>

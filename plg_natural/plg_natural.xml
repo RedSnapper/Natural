@@ -5,7 +5,7 @@
 	<creationDate>21 February 2014</creationDate>
 	<version>2014.022101</version>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<description>
 		This allows for xpaths-enabled natural views.
 		It also overrides classes for com_composite
