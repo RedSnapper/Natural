@@ -1,12 +1,20 @@
 ![Natural Library](logo.png)
 
-##What is Natural?
+##What is Natural, and why use it?
 The Natural Library provides two additional functionalities to Joomla!
 * Natural Views, which are a means of being able to separate php from html completely.
+There are several key advantages that this offers:
+**More readable code / design.
+**Separation of concerns - the designer can modify the markup at any time.
+**Non-linear code. Rather than having to process the document in the order that it is rendered, it can be processed according to business-sense.
+**One develops much cleaner markup!
+
 * The Composite Component, which allows for menus to be rendered as menu-items.
+This is particularly useful when wishing to render different components during a single request. Modern websites often have multiple 'pages' appearing within a single request and, although javascript can be used to generate such pages, at times it is advantageous to have the server render the page document.
 
 ##Copyright
 Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+Some monkey-patched files are Copyright ©2013 Open Source Matters, Inc. All rights reserved.
 Much of Ace Editor Copyright ©2012 Sven Bluege. All rights reserved.
 
 ##License
@@ -93,6 +101,14 @@ There are three gap extensions: child-gap(), preceding-gap(), following-gap().
 The easiest way to see how they differ is to examine the following image
 
 ![Gaps in XML](gaps.gif)
+
+###Adding in jdoc points.
+The normal jdoc element uses a 'jdoc' namespace prefix, which is disallowed by html5.
+Although Natural supports it, one can also use any element with the following (html5-savvy) attributes. For example,
+
+`<ul data-jdoc="modules" data-name="header" style="none" ><li>placeholder</li></div>`
+
+The entire element (and it's contents) will be replaced by the relevant module or jdoc component. This can help with the design process, as a placeholder block can be left in place by the designer without affecting the actual resulting site.
 
 ###Natural Modules.
 The Natural module is made up of two textareas - the Control component, and the View component. It works just as above, with $nv pointing to the view component.
