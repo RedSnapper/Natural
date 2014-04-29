@@ -1,5 +1,6 @@
 ##About
-Natural Views for Joomla.
+![Natural Library](logo.png)
+Natural Views for Joomla!
 Also includes other core bits, like com_composite.
 
 ##Description
