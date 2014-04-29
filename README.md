@@ -132,7 +132,7 @@ This is an aggregate component, which turns a menu into a rendered aggregate of 
 
 There is no protection against self-referencing composites - so beware it's not that hard to create an infinite recursive loop!
 
-##DEVELOPER NOTE: GIT REPO
+##Note to Developer: Git Repo.
 The following will automatically package anything that needs packaging.
 What it won't do is generate a new line in the update.xml file.
 
