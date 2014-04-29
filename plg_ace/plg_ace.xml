@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="editors" method="upgrade">
 	<name>Editors - Ace</name>
-	<author>Ben Griffin</author>
+	<author>Red Snapper Ltd</author>
 	<creationDate>21 February 2014</creationDate>
 	<version>2014.022101</version>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
 	<name>Natural</name>
-	<author>Ben Griffin</author>
+	<author>Red Snapper Ltd</author>
 	<version>2014.042301</version>
 	<creationDate>23 April 2014</creationDate>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>

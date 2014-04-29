@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2.0" method="upgrade">
 	<name>Composite</name>
-	<author>Ben Griffin</author>
+	<author>Red Snapper Ltd</author>
 	<creationDate>24 April 2014</creationDate>
 	<version>2014.042401</version>
 	<copyright>Copyright ©2013-2014 Red Snapper Ltd.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>ben@redsnapper.net</authorEmail>
+	<authorEmail>web@redsnapper.net</authorEmail>
 	<authorUrl>www.redsnapper.net</authorUrl>
 	<description>Using a menu as a menu-item, composite renders all the menu-items</description>
 	<files folder="site">
