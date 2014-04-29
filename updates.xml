@@ -42,4 +42,18 @@
     <maintainerurl>http://www.redsnapper.net</maintainerurl>
     <targetplatform name="joomla" version="3.2" min_dev_level="0" />
   </update>
-</updates>
+  <update>
+    <name>Natural 2014.042901</name>
+    <description>Natural Package - version number is compared with pkg_natural.xml version</description>
+    <element>pkg_Natural</element>
+    <type>package</type>
+    <client>site</client>
+    <version>2014.042901</version>
+    <downloads>
+      <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
+    </downloads>
+    <maintainer>Red Snapper Ltd</maintainer>
+    <maintainerurl>http://www.redsnapper.net</maintainerurl>
+    <targetplatform name="joomla" version="3.2" min_dev_level="0" />
+  </update>
+ </updates>
