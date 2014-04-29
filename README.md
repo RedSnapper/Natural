@@ -12,9 +12,9 @@ The Natural Library provides two additional functionalities to Joomla!
 This is particularly useful when wishing to render different components during a single request. Modern websites often have multiple 'pages' appearing within a single request and, although javascript can be used to generate such pages, at times it is advantageous to have the server render the page document.
 
 ##Copyright
-Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
-Some monkey-patched files are Copyright ©2013 Open Source Matters, Inc. All rights reserved.
-Much of Ace Editor Copyright ©2012 Sven Bluege. All rights reserved.
+* Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+* Some patched files are Copyright ©2013 Open Source Matters, Inc. All rights reserved.
+* Much of Ace Editor Copyright ©2012 Sven Bluege. All rights reserved.
 
 ##License
 GNU/GPLv2
