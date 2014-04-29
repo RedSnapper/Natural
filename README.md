@@ -71,10 +71,10 @@ if ($llist instanceof DOMNodeList)
 ####Other functions
 consume() is syntactic sugar. It deletes the addressed node(s) from the source document. It is very useful for grabbing an li as an item template.
 It is functionally equivalent to:
-'''
+```
 $a=$nv->get($xpath,$ref); 	//get the result
 $nv->set($xpath,null,$ref); //delete from source
-'''
+```
 
 ####show($asdocument = false);
 show() returns the view as a string, with the option of including the namespace, doctype and xml prolog (which by default it will not).
