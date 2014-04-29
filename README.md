@@ -1,12 +1,9 @@
-##About
 ![Natural Library](logo.png)
-Natural Views for Joomla!
-Also includes other core bits, like com_composite.
 
-##Description
+##What is Natural?
 The Natural Library provides two additional functionalities to Joomla!
-* Natural Views
-* Composite Component
+* Natural Views, which are a means of being able to separate php from html completely.
+* The Composite Component, which allows for menus to be rendered as menu-items.
 
 ##Copyright
 Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
