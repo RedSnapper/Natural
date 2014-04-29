@@ -72,10 +72,10 @@ if ($llist instanceof DOMNodeList)
 ####Other functions
 consume() is syntactic sugar. It deletes the addressed node(s) from the source document. It is very useful for grabbing an li as an item template.
 It is functionally equivalent to:
-'''
+```
 $a=$nv->get($xpath,$ref); 	//get the result
 $nv->set($xpath,null,$ref); //delete from source
-'''
+```
 
 ####show($asdocument = false);
 show() returns the view as a string, with the option of including the namespace, doctype and xml prolog (which by default it will not).
@@ -107,9 +107,7 @@ $p is the set of module parameters.
 
 Modules may be invoked directly within the view component, by using the following markup. ANY element may be used, not just divs.
 
-'''
-<div data-jmod="(module Type)" title="(module Title)" style="(module Style)" data-foo="Foo" data-bar="Bar"></div>
-'''
+`<div data-jmod="(module Type)" title="(module Title)" style="(module Style)" data-foo="Foo" data-bar="Bar"></div>`
 
 (module Type) should be the name of a module type, eg. 'Menu' or 'Natural'.
 (module Title) should be the title of the module to be placed here.
