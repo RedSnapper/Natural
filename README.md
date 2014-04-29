@@ -2,12 +2,11 @@
 
 ##What is Natural, and why use it?
 The Natural Library provides two additional functionalities to Joomla!
-* Natural Views, which are a means of being able to separate php from html completely.
-There are several key advantages that this offers:
-**More readable code / design.
-**Separation of concerns - the designer can modify the markup at any time.
-**Non-linear code. Rather than having to process the document in the order that it is rendered, it can be processed according to business-sense.
-**One develops much cleaner markup!
+* Natural Views, which are a means of being able to separate php from html completely. There are several key advantages that this offers:
+ * More readable code / design.
+ * Separation of concerns - the designer can modify the markup at any time.
+ * Non-linear code. Rather than having to process the document in the order that it is rendered, it can be processed according to business-sense.
+ * One develops much cleaner markup!
 
 * The Composite Component, which allows for menus to be rendered as menu-items.
 This is particularly useful when wishing to render different components during a single request. Modern websites often have multiple 'pages' appearing within a single request and, although javascript can be used to generate such pages, at times it is advantageous to have the server render the page document.
