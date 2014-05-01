@@ -1,11 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ *
+ * @package     Joomla.Legacy - Overridden to support view creation.
  * @subpackage  Controller
  *
- * @note		MONKEY-PATCH cf. #3462 - Tracker #33623
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright   Copyright (C) 2005 - 2014 Red Snapper Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 

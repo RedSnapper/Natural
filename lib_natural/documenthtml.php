@@ -3,10 +3,8 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @note		Added Natural View / XPath support
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
- * @license		GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -472,10 +470,13 @@ class JDocumentHTML extends JDocument
 
 		if(! is_null($this->nv) || !empty($this->_template)) { //Natural: impl. doc
 			$data = $this->_renderTemplate();
-		} else {
+		}
+		else
+		{
 			$this->parse($params);
 			$data = $this->_renderTemplate();
 		}
+
 		parent::render();
 		return $data;
 	}
@@ -647,6 +648,7 @@ class JDocumentHTML extends JDocument
 	{
 		if ( is_null($this->nv) )
 		{ //Natural: go classic
+
 			$matches = array();
 			if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 			{
@@ -675,6 +677,7 @@ class JDocumentHTML extends JDocument
 
 				$this->_template_tags = $template_tags_first + $template_tags_last;
 			}
+
 		}
 		else
 		{ //Natural:: special
@@ -695,11 +698,11 @@ class JDocumentHTML extends JDocument
 		return $this;
 	}
 
-	protected function _doJDoc( &$nv, &$m, &$f, &$l ) {
-		$type = $nv->get("@data-jdoc",$m);
-		$name = $nv->get("@data-name",$m);
-		$style = $nv->get("@style",$m);
-		$title = $nv->get("@title",$m);
+	protected function _doJDoc( &$v, &$m, &$f, &$l ) {
+		$type = $v->get("@data-jdoc",$m);
+		$name = $v->get("@data-name",$m);
+		$style = $v->get("@style",$m);
+		$title = $v->get("@title",$m);
 		$attribs = array();
 		if (!empty($style)) { $attribs["style"] = $style; }
 		if (!empty($title)) { $attribs["title"] = title; }
@@ -722,12 +725,15 @@ class JDocumentHTML extends JDocument
 	if ( is_null($this->nv) ) { //Natural: classic
 		$replace = array();
 		$with = array();
+
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
+
 		return str_replace($replace, $with, $this->_template);
+
 	} else { //Natural: use nv
 			foreach ($this->_template_tags as $args)
 			{
@@ -740,8 +746,8 @@ class JDocumentHTML extends JDocument
 				$this->nv->set($xpath,$fragstr);
 			}
 			NMod::doModules($this->nv,array(),$this->params);
-//			$this->nv->set("(//*)[@data-jmod]"); //clear those that are unused.
-//			$this->nv->set("(//*)[@data-jdoc]"); //and these
+			$this->nv->set("(//*)[@data-jmod]"); //clear those that are unused.
+			$this->nv->set("(//*)[@data-jdoc]"); //and these
 			return $this->nv->show(TRUE);
 		}
 	}
