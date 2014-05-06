@@ -71,12 +71,12 @@ class NMod
 					$app->enqueueMessage('Module control failed: ' . $ctrl,'error');
 				}
 			} catch (Exception $e) {
-				$app->enqueueMessage( $e->getMessage() . ' while evaluating <code>' . print_r($ctrl,true) . '</code>', error);
+				$app->enqueueMessage( $e->getMessage() . ' while evaluating <code>' . print_r($ctrl,true) . '</code>', 'error');
 			}
 			$output = ob_get_contents();
 			ob_end_clean();
 			if (!empty($output)) {
-				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code>', error);
+				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code>', 'error');
 			}
 		}
 		NMod::doModules($nv,$a,$p);
