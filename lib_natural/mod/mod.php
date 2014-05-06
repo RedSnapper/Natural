@@ -64,10 +64,10 @@ class NMod
 		}
 		$nv = new NView($view);
 		if (!empty($ctrl)) {
+			$app = JFactory::getApplication();
 			ob_start();
 			try {
 				if (eval($ctrl) === FALSE) {
-					$app = JFactory::getApplication();
 					$app->enqueueMessage('Module control failed: ' . $ctrl,'error');
 				}
 			} catch (Exception $e) {
