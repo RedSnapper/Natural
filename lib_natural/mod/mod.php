@@ -76,7 +76,7 @@ class NMod
 			$output = ob_get_contents();
 			ob_end_clean();
 			if (!empty($output)) {
-				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code>', 'error');
+				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code> with <pre>' . $output . '</pre>', 'error');
 			}
 		}
 		NMod::doModules($nv,$a,$p);
