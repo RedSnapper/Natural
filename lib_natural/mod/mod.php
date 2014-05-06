@@ -80,7 +80,7 @@ class NMod
 			}
 		}
 		NMod::doModules($nv,$a,$p);
-		return $v->show(FALSE); //don't want to render as document, yet.
+		return $nv->show(FALSE); //don't want to render as document, yet.
 	}
 
 };

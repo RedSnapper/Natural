@@ -20,12 +20,12 @@
     <targetplatform name="joomla" version="3.2" min_dev_level="0" />
   </update>
   <update>
-    <name>Natural 2014.043001</name>
-    <description>Natural Package - Licenses are normalised and corrected.</description>
+    <name>Natural 2014.050101</name>
+    <description>Natural Package - Monkey patches merged</description>
     <element>pkg_Natural</element>
     <type>package</type>
     <client>site</client>
-    <version>2014.043001</version>
+    <version>2014.050101</version>
     <downloads>
       <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
     </downloads>
@@ -34,12 +34,12 @@
     <targetplatform name="joomla" version="3.3" min_dev_level="0" />
   </update>
   <update>
-    <name>Natural 2014.050101</name>
-    <description>Natural Package - Monkey patches merged</description>
+    <name>Natural 2014.050601</name>
+    <description>Natural Package - Module bug fix</description>
     <element>pkg_Natural</element>
     <type>package</type>
     <client>site</client>
-    <version>2014.050101</version>
+    <version>2014.050601</version>
     <downloads>
       <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
     </downloads>
