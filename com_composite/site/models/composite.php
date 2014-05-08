@@ -32,6 +32,7 @@ class CompositeModelComposite extends JModelItem
 			$base = JURI::base();
 			$menu = $app->getMenu();
 			$m_active = $menu->getActive();
+			$this->item = $m_active;
 			$m = $menu->getItems('menutype',$mtype);
 			ob_start();
 			foreach ($m as $i) {
