@@ -1,11 +1,25 @@
 <?php
+
 /**
- * @copyright	Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+ * @copyright	Copyright ¬©2013-2014 Red Snapper Ltd. All rights reserved.
  * @license		GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
  */
+
 defined('_JEXEC') or die('Restricted access');
 JLoader::import('cms.application.applicationcms');
 JLoader::import('joomla.application.component.modelitem');
+
+class CompositeJInput extends JInput {
+
+	public static function getData(JInput $j) {
+		return $j->data;
+	}
+
+	public static function setData(JInput $j, array $a) {
+		$j->data = $a;
+	}
+}
+
 
 class CompositeJApplication extends JApplicationCms {
 	public static function setTemplate($app, $tmpl = null) {
@@ -34,7 +48,8 @@ class CompositeModelComposite extends JModelItem
 		{
 			$app  = JFactory::getApplication();
 			$lang = JFactory::getLanguage();
-			$jinput = clone $app->input;
+			$in_array = CompositeJInput::getData($app->input);
+			$jinput = $app->input;
 			$jtemplate = $app->getTemplate(true);
 			$mtype = $jinput->get('id');
 			$app->input->set('hitcount',0);
@@ -90,6 +105,7 @@ class CompositeModelComposite extends JModelItem
 			$this->composition = ob_get_contents();
 			ob_end_clean();
 			$app->input = $jinput;
+			CompositeJInput::setData($app->input,$in_array);
 			$menu->setActive($this->item->id);
 			CompositeJApplication::setTemplate($app,$jtemplate);
 		}
