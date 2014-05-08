@@ -16,6 +16,7 @@ class CompositeJApplication extends JApplicationCms {
 class CompositeModelComposite extends JModelItem
 {
 	protected $composition;
+	protected $item;
 
 	public function getComposite()
 	{
@@ -31,8 +32,7 @@ class CompositeModelComposite extends JModelItem
 			$vtype = $document->getType(); //'html'
 			$base = JURI::base();
 			$menu = $app->getMenu();
-			$m_active = $menu->getActive();
-			$this->item = $m_active;
+			$this->item = $menu->getActive();
 			$m = $menu->getItems('menutype',$mtype);
 			ob_start();
 			foreach ($m as $i) {
@@ -80,7 +80,7 @@ class CompositeModelComposite extends JModelItem
 			$this->composition = ob_get_contents();
 			ob_end_clean();
 			$app->input = $jinput;
-			$menu->setActive($m_active->id);
+			$menu->setActive($this->item->id);
 			CompositeJApplication::setTemplate($app,$jtemplate);
 		}
 		return $this->composition;
