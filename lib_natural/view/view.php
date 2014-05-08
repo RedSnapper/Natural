@@ -130,8 +130,11 @@ class NView
 	}
 
 	public function consume($xpath, $ref = null) {
-		$retval = clone $this->get($xpath, $ref);
-		$this->set($xpath,'',$ref);
+		$retval = null;
+		$retval = $this->get($xpath, $ref);
+		if (!is_null($retval)) {
+			$this->set($xpath,null,$ref);
+		}
 		return $retval;
 	}
 
