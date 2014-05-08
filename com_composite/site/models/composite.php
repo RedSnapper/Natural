@@ -18,6 +18,16 @@ class CompositeModelComposite extends JModelItem
 	protected $composition;
 	protected $item;
 
+	public function getItem() {
+		if (!isset($this->item))
+		{
+			$app  = JFactory::getApplication();
+			$menu = $app->getMenu();
+			$this->item = $menu->getActive();
+		}
+		return $this->item;
+	}
+
 	public function getComposite()
 	{
 		if (!isset($this->composition))

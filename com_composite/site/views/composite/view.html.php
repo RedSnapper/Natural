@@ -11,6 +11,7 @@ class CompositeViewComposite extends JViewLegacy
 {
 	function display($tpl = null)
 	{
+		$this->item = $this->get('Item');
 		$this->composition = $this->get('Composite');
 		if (count($errors = $this->get('Errors')))
 		{
