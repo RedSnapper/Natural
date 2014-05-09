@@ -1,6 +1,9 @@
 <?php
 defined('_JEXEC') or die;
-
+/**
+ * @copyright	Copyright ©2013-2014 Red Snapper Ltd. All rights reserved.
+ * @license		GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+ */
 JFormHelper::loadFieldClass('list');
 class JFormFieldComposite extends JFormFieldList
 {
