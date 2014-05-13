@@ -61,6 +61,10 @@ class CompositeModelComposite extends JModelItem
 			$m = $menu->getItems('menutype',$mtype);
 			ob_start();
 			foreach ($m as $i) {
+				if ($i->type === "alias") {
+					$ni = $i->params['aliasoptions'];
+					$i = $menu->getItem($ni);
+				}
 				CompositeJApplication::setTemplate($app);
 				$menu->setActive($i->id);
 				$app->input->set('Itemid',$i->id);
