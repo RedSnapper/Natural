@@ -21,21 +21,12 @@
     <targetplatform name="joomla" version="3.2" min_dev_level="0" />
   </update>
   <update>
-<<<<<<< HEAD
     <name>Natural 2014.051301</name>
     <description>Natural Package - composite aliases</description>
     <element>pkg_Natural</element>
     <type>package</type>
     <client>site</client>
     <version>2014.051301</version>
-=======
-    <name>Natural 2014.050901</name>
-    <description>Natural Package - consume fix</description>
-    <element>pkg_Natural</element>
-    <type>package</type>
-    <client>site</client>
-    <version>2014.050901</version>
->>>>>>> a7d53476c00218e17666de05a8a850d91a9b2c59
     <downloads>
       <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
     </downloads>
