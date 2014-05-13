@@ -495,10 +495,12 @@ class NView
 //void elements area, base, br, col, hr, img, input, link, meta, param, command, keygen,source
 	private function tidyView() {
 		$this->fixHrefs();
-		$xq = "//*[not(node())][not(self::area or self::base or self::br or self::col or self::hr or self::img or self::input or self::link or self::meta or self::param or self::command or self::keygen or self::source)]";
+		$xq = "//*[not(node())][not(contains('[area|base|br|col|hr|img|input|link|meta|param|command|keygen|source]',local-name()))]";
 		$entries = $this->xp->query($xq);
 		if ($entries) {
-			foreach($entries as $entry) { $entry->appendChild($this->doc->createTextNode('')); }
+			foreach($entries as $entry) {
+				$entry->appendChild($this->doc->createTextNode(''));
+			}
 		}
 	}
 
