@@ -104,6 +104,7 @@ class NView
 		try {
 			$fnode->appendXML($fragstr);
 		} catch (Exception $ex) {
+			$this->doMsg('Attempted fragment:',htmlspecialchars(print_r($fragstr,true)));
 			restore_error_handler();
 			throw $ex;
 		}
