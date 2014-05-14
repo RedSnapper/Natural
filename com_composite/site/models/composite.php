@@ -42,6 +42,21 @@ class CompositeModelComposite extends JModelItem
 		return $this->item;
 	}
 
+	public static function makeView($jc, $cpath, $tpath, $layout, $name, $type) {
+		$view = null;
+		$prefix = $jc->name . 'view';
+		if (file_exists($tpath)) {
+			$view = $jc->getView($name,$type,$prefix,array( 'layout' => $layout, 'base_path' => $cpath, 'template_path' => $tpath));
+		} else {
+			$view = $jc->getView($name,$type,$prefix,array( 'layout' => 'default', 'base_path' => $cpath ));
+		}
+		if (! $view ) {
+			$view = null;
+			$app->enqueueMessage( 'Failed to make view with path ' . $tpath . ', layout ' . $layout . ', name ' . $name . ', type ' . $type ,'error');
+		}
+		return $view;
+	}
+
 	public function getComposite()
 	{
 		if (!isset($this->composition))
@@ -102,7 +117,7 @@ class CompositeModelComposite extends JModelItem
 				JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 				JFormHelper::addFormPath($cpath . '/models/' . 'form');
 				$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-				$jv = $jc->makeView($cpath, $tpath, $layout, $vname , $vtype );
+				$jv = CompositeModelComposite::makeView($cpath, $tpath, $layout, $vname , $vtype );
 				try {
 					$jc->display();
 				}

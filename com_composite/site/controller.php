@@ -9,18 +9,4 @@ JLoader::import('joomla.application.component.controller');
 
 class CompositeController extends JControllerLegacy
 {
-	public function makeView($cpath, $tpath, $layout, $name, $type) {
-		$view = null;
-		$prefix = $this->name . 'view';
-		if (file_exists($tpath)) {
-			$view = $this->getView($name,$type,$prefix,array( 'layout' => $layout, 'base_path' => $cpath, 'template_path' => $tpath));
-		} else {
-			$view = $this->getView($name,$type,$prefix,array( 'layout' => 'default', 'base_path' => $cpath ));
-		}
-		if (! $view ) {
-			$view = null;
-			$app->enqueueMessage( 'Failed to make view with path ' . $tpath . ', layout ' . $layout . ', name ' . $name . ', type ' . $type ,'error');
-		}
-		return $view;
-	}
 }
