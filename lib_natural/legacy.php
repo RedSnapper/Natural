@@ -144,26 +144,6 @@ class JControllerLegacy extends JObject
 	 */
 	protected static $instance;
 
-	protected static $views;
-
-//Overrides a view.
-	public function makeView($cpath, $tpath, $layout, $name, $type) {
-		$view = null;
-		$prefix = $this->name . 'view';
-		if (file_exists($tpath)) {
-			$view = $this->createView($name,$prefix,$type,array( 'layout' => $layout, 'base_path' => $cpath, 'template_path' => $tpath));
-		} else {
-			$view = $this->createView($name,$prefix,$type,array( 'layout' => 'default', 'base_path' => $cpath ));
-		}
-		if (! $view ) {
-			$view = null;
-			$app->enqueueMessage( 'Failed to make view with path ' . $tpath . ', layout ' . $layout . ', name ' . $name . ', type ' . $type ,'error');
-		} else {
-			JControllerLegacy::$views[$name] = & $view; //wont work on unhacked JControllerLegacy.
-		}
-		return $view;
-	}
-
 	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
@@ -852,12 +832,14 @@ class JControllerLegacy extends JObject
 	 * @since   12.2
 	 * @throws  Exception
 	 */
+
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
+		static $views;
 
-		if (!isset(self::$views))
+		if (!isset($views))
 		{
-			self::$views = array();
+			$views = array();
 		}
 
 		if (empty($name))
@@ -870,11 +852,13 @@ class JControllerLegacy extends JObject
 			$prefix = $this->getName() . 'View';
 		}
 
-		if (empty(self::$views[$name]))
+		$layout = isset($config['layout']) ? $config['layout'] : '';
+
+		if (empty($views[$name][$type][$prefix][$layout]))
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				self::$views[$name] = & $view;
+				$views[$name][$type][$prefix][$layout] = & $view;
 			}
 			else
 			{
@@ -882,8 +866,9 @@ class JControllerLegacy extends JObject
 			}
 		}
 
-		return self::$views[$name];
+		return $views[$name][$type][$prefix][$layout];
 	}
+
 
 	/**
 	 * Method to add a record ID to the edit list.

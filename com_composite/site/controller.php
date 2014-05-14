@@ -9,66 +9,18 @@ JLoader::import('joomla.application.component.controller');
 
 class CompositeController extends JControllerLegacy
 {
-
-	public function display($cachable = false, $urlparams = false)
-	{
-//exactly the same as parent::display..
-		$document = JFactory::getDocument();
-		$viewType = $document->getType();
-		$viewName = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default', 'string');
-
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
-
-		// Get/Create the model
-		if ($model = $this->getModel($viewName))
-		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
+	public function makeView($cpath, $tpath, $layout, $name, $type) {
+		$view = null;
+		$prefix = $this->name . 'view';
+		if (file_exists($tpath)) {
+			$view = $this->getView($name,$type,$prefix,array( 'layout' => $layout, 'base_path' => $cpath, 'template_path' => $tpath));
+		} else {
+			$view = $this->getView($name,$type,$prefix,array( 'layout' => 'default', 'base_path' => $cpath ));
 		}
-
-		$view->document = $document;
-
-		$conf = JFactory::getConfig();
-
-		// Display the view
-		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
-		{
-			$option = $this->input->get('option');
-			$cache = JFactory::getCache($option, 'view');
-
-			if (is_array($urlparams))
-			{
-				$app = JFactory::getApplication();
-
-				if (!empty($app->registeredurlparams))
-				{
-					$registeredurlparams = $app->registeredurlparams;
-				}
-				else
-				{
-					$registeredurlparams = new stdClass;
-				}
-
-				foreach ($urlparams as $key => $value)
-				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
-					$registeredurlparams->$key = $value;
-				}
-
-				$app->registeredurlparams = $registeredurlparams;
-			}
-
-			$cache->get($view, 'display');
+		if (! $view ) {
+			$view = null;
+			$app->enqueueMessage( 'Failed to make view with path ' . $tpath . ', layout ' . $layout . ', name ' . $name . ', type ' . $type ,'error');
 		}
-		else
-		{
-			$view->display();
-		}
-
-		return $this;
-
+		return $view;
 	}
-
-
 }
