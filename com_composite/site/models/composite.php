@@ -117,7 +117,7 @@ class CompositeModelComposite extends JModelItem
 				JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 				JFormHelper::addFormPath($cpath . '/models/' . 'form');
 				$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-				$jv = CompositeModelComposite::makeView($cpath, $tpath, $layout, $vname , $vtype );
+				$jv = CompositeModelComposite::makeView($jc, $cpath, $tpath, $layout, $vname , $vtype );
 				try {
 					$jc->display();
 				}
