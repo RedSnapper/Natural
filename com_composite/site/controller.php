@@ -13,7 +13,7 @@ class CompositeController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		$view   = $this->input->get('view', 'contacts');
-		$layout = $this->input->get('layout', 'default');
+		$layout = $this->input->get('layout', 'default', 'string');
 		$id     = $this->input->getInt('id');
 		parent::display();
 		return $this;
