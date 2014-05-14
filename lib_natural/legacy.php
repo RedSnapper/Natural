@@ -854,6 +854,8 @@ class JControllerLegacy extends JObject
 
 		$layout = isset($config['layout']) ? $config['layout'] : '';
 
+		$prefix = strtolower($prefix);
+
 		if (empty($views[$name][$type][$prefix][$layout]))
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
