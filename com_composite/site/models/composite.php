@@ -42,9 +42,9 @@ class CompositeModelComposite extends JModelItem
 		return $this->item;
 	}
 
-	public static function makeView($jc, $cpath, $tpath, $layout, $name, $type) {
+	public static function makeView($jc, $cname, $cpath, $tpath, $layout, $name, $type) {
 		$view = null;
-		$prefix = $jc->name . 'view';
+		$prefix = $cname . 'view';
 		if (file_exists($tpath)) {
 			$view = $jc->getView($name,$type,$prefix,array( 'layout' => $layout, 'base_path' => $cpath, 'template_path' => $tpath));
 		} else {
@@ -117,7 +117,7 @@ class CompositeModelComposite extends JModelItem
 				JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 				JFormHelper::addFormPath($cpath . '/models/' . 'form');
 				$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-				$jv = CompositeModelComposite::makeView($jc, $cpath, $tpath, $layout, $vname , $vtype );
+				$jv = CompositeModelComposite::makeView($jc, $ccbase, $cpath, $tpath, $layout, $vname , $vtype );
 				try {
 					$jc->display();
 				}
