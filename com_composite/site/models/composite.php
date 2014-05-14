@@ -68,9 +68,13 @@ class CompositeModelComposite extends JModelItem
 				CompositeJApplication::setTemplate($app);
 				$menu->setActive($i->id);
 				$app->input->set('Itemid',$i->id);
+				$layout="default";
 				foreach ($i->query as $key => $value) {
 					if ($key === "id") {
 						$app->input->set("a_id",$value);
+					}
+					if ($key === "layout") {
+						$layout=$value;
 					}
 					$app->input->set($key,$value);
 				}
@@ -98,7 +102,7 @@ class CompositeModelComposite extends JModelItem
 				JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 				JFormHelper::addFormPath($cpath . '/models/' . 'form');
 				$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-				$jv = $jc->makeView($cpath, $tpath, $template, $vname , $vtype );
+				$jv = $jc->makeView($cpath, $tpath, $layout, $vname , $vtype );
 				try {
 					$jc->display();
 				}
