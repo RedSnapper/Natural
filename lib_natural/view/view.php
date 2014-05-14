@@ -485,7 +485,7 @@ class NView
 				if (isset($urls[$alias])) {
 					$url=$urls[$alias];
 				} else {
-					$url = $base . $menu->getItems('home',true,true)->route;
+					$url = $base . $menu->getItems($alias,true,true)->route;
 					$urls[$alias]=$url;
 				}
 				$alias = $this->set('@href',$url,$entry);
