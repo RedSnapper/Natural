@@ -29,10 +29,12 @@ class CompositeModelComposite extends JModelItem
 	{
 		if (!isset($this->composition))
 		{
-			$this->getItem();
+			$app = JFactory::getApplication();
+			$menu = $app->getMenu();
+			$this->item = $menu->getActive();
+			$m = $menu->getItems('menutype',$app->input->get('id'));
 			$nc = new NComposite();
 			$nc->pushState();
-			$m = $nc->j_menu->getItems('menutype',$nc->j_tmp_input->get('id'));
 			ob_start();
 			foreach ($m as $i) {
 				$nc->doComposite($i);

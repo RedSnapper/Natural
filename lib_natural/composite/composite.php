@@ -134,5 +134,5 @@ class NComposite
 		CompositeJApplication::setTemplate($j_app,$j_tmp_template);
 	}
 
+}
 
-};
