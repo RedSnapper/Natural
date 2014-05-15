@@ -61,6 +61,7 @@ class NComposite
 //used by doComposite, set up during pushState..
 	protected $j_type;
 	protected $j_menu;
+	protected $j_lang;
 
 	public function doComposite($i) {
 		if ($i->type === "alias") {
@@ -86,8 +87,8 @@ class NComposite
 		$cclass= $ccbase . 'Controller';
 		$template = $this->j_app->getTemplate(true)->template;
 		$cpath = JPATH_BASE . '/components/' . $option ;
-		$lang->load($option);
-		$lang->load($option,$cpath);
+		$this->j_lang->load($option);
+		$this->j_lang->load($option,$cpath);
 		$vname = $i->query['view'];
 		$dpath = 'components.' . $option;
 		$tpath = JPATH_THEMES . '/' . $template . '/' . $this->j_type . '/' . $option .'/'. $vname .'/';
@@ -116,7 +117,7 @@ class NComposite
 //keep a request safe while making changes...
 	public function pushState() {
 		$this->j_app = JFactory::getApplication();
-		$lang = JFactory::getLanguage();
+		$this->j_lang = JFactory::getLanguage();
 		$this->j_tmp_array = CompositeJInput::getData($this->j_app->input);
 		$this->j_tmp_input = $this->j_app->input;
 		$this->j_tmp_template = $this->j_app->getTemplate(true);
