@@ -65,32 +65,32 @@ class NComposite
 	public function doComposite($i) {
 		if ($i->type === "alias") {
 			$ni = $i->params['aliasoptions'];
-			$i = $j_menu->getItem($ni);
+			$i = $this->j_menu->getItem($ni);
 		}
-		CompositeJApplication::setTemplate($j_app);
-		$j_menu->setActive($i->id);
-		$j_app->input->set('Itemid',$i->id);
+		CompositeJApplication::setTemplate($this->j_app);
+		$this->j_menu->setActive($i->id);
+		$this->j_app->input->set('Itemid',$i->id);
 		$layout="default";
 		foreach ($i->query as $key => $value) {
 			if ($key === "id") {
-				$j_app->input->set("a_id",$value);
+				$this->j_app->input->set("a_id",$value);
 			}
 			if ($key === "layout") {
 				$layout=$value;
 			}
-			$j_app->input->set($key,$value);
+			$this->j_app->input->set($key,$value);
 		}
 		$option = $i->query['option'];
 		$cbase = substr($option,4);
 		$ccbase = ucfirst($cbase);
 		$cclass= $ccbase . 'Controller';
-		$template = $j_app->getTemplate(true)->template;
+		$template = $this->j_app->getTemplate(true)->template;
 		$cpath = JPATH_BASE . '/components/' . $option ;
 		$lang->load($option);
 		$lang->load($option,$cpath);
 		$vname = $i->query['view'];
 		$dpath = 'components.' . $option;
-		$tpath = JPATH_THEMES . '/' . $template . '/' . $j_type . '/' . $option .'/'. $vname .'/';
+		$tpath = JPATH_THEMES . '/' . $template . '/' . $this->j_type . '/' . $option .'/'. $vname .'/';
 //There must be a better way..
 		JLoader::import($dpath. '.controller', JPATH_BASE );
 		JLoader::import($dpath . '.models.' . $vname, JPATH_BASE );
@@ -104,34 +104,34 @@ class NComposite
 		JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 		JFormHelper::addFormPath($cpath . '/models/' . 'form');
 		$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-		$jv = NComposite::makeView($jc, $ccbase, $cpath, $tpath, $layout, $vname , $j_type );
+		$jv = NComposite::makeView($jc, $ccbase, $cpath, $tpath, $layout, $vname , $this->j_type );
 		try {
 			$jc->display();
 		}
 		catch (Exception $e) {
-			$j_app->enqueueMessage( $e->getMessage() . ' while rendering ' . $tpath . ' with layout ' . $template ,'error');
+			$this->j_app->enqueueMessage( $e->getMessage() . ' while rendering ' . $tpath . ' with layout ' . $template ,'error');
 		}
 	}
 
 //keep a request safe while making changes...
 	public function pushState() {
-		$j_app  = JFactory::getApplication();
+		$this->j_app = JFactory::getApplication();
 		$lang = JFactory::getLanguage();
-		$j_tmp_array = CompositeJInput::getData($j_app->input);
-		$j_tmp_input = $j_app->input;
-		$j_tmp_template = $j_app->getTemplate(true);
-		$j_app->input->set('hitcount',0);
+		$this->j_tmp_array = CompositeJInput::getData($this->j_app->input);
+		$this->j_tmp_input = $this->j_app->input;
+		$this->j_tmp_template = $this->j_app->getTemplate(true);
+		$this->j_app->input->set('hitcount',0);
 		$document = JFactory::getDocument();
-		$j_type = $document->getType(); //'html'
-		$j_menu = $j_app->getMenu();
+		$this->j_type = $document->getType(); //'html'
+		$this->j_menu = $this->j_app->getMenu();
 	}
 
 //restore a request after making changes...
 	public function popState() {
-		$j_app->input = $j_tmp_input;
-		CompositeJInput::setData($j_app->input,$j_tmp_array);
-		$j_menu->setActive($this->item->id);
-		CompositeJApplication::setTemplate($j_app,$j_tmp_template);
+		$this->j_app->input = $this->j_tmp_input;
+		CompositeJInput::setData($this->j_app->input,$this->j_tmp_array);
+		$this->j_menu->setActive($this->item->id);
+		CompositeJApplication::setTemplate($this->j_app,$this->j_tmp_template);
 	}
 
 }
