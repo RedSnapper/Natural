@@ -54,6 +54,7 @@ class NComposite
 
 
 //temporary storage..
+	protected $j_tmp_item;
 	protected $j_tmp_input;
 	protected $j_tmp_array;
 	protected $j_tmp_template;
@@ -125,13 +126,14 @@ class NComposite
 		$document = JFactory::getDocument();
 		$this->j_type = $document->getType(); //'html'
 		$this->j_menu = $this->j_app->getMenu();
+		$this->j_tmp_item = $this->j_menu->getActive();
 	}
 
 //restore a request after making changes...
 	public function popState() {
 		$this->j_app->input = $this->j_tmp_input;
 		CompositeJInput::setData($this->j_app->input,$this->j_tmp_array);
-		$this->j_menu->setActive($this->item->id);
+		$this->j_menu->setActive($this->j_tmp_item->id);
 		CompositeJApplication::setTemplate($this->j_app,$this->j_tmp_template);
 	}
 
