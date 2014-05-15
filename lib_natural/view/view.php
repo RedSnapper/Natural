@@ -486,8 +486,12 @@ class NView
 					$url=$urls[$alias];
 				} else {
 					$mi = $menu->getItems('alias',$alias,true);
-					$url = $base . $mi->route;
-					$urls[$alias]=$url;
+					if ( !empty($mi)) {
+						$url = $base . $mi->route;
+						$urls[$alias]=$url;
+					} else {
+						$this->doMsg("Alias '" . $alias . "' not founding while fixing !alias hrefs.");
+					}
 				}
 				$this->set('@href',$url,$entry);
 			}
