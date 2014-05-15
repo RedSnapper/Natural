@@ -23,5 +23,6 @@
 		<filename>legacy.php</filename>
 		<folder>view</folder>
 		<folder>mod</folder>
+		<folder>composite</folder>
 	</files>
 </extension>
