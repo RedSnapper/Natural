@@ -522,6 +522,7 @@ class NView
 			foreach($entries as $entry)
 			{
 				$alias = substr($this->get('@href',$entry),1); //'!foo' --> 'foo'
+				$url="#";
 				if (isset($urls[$alias])) {
 					$url=$urls[$alias];
 				} else {
