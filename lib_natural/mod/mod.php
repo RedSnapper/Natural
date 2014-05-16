@@ -41,21 +41,6 @@ class NMod
 		$nv->set($xpath,$contents);
 	}
 
-	public static function doModules(&$nv,$a = array(),$p)
-	{
-		$mml = $nv->get("//*[@data-jmod]");
-		if ($mml instanceof DOMNodeList) {
-			$count = $mml->length;
-			for($pos=$count; $pos > 0 ; $pos-- ) { //xpath uses 1-indexing
-				NMod::doModule( $nv, $mml->item($pos - 1), $a, $p, $pos );
-			}
-		} else {
-			if ($mml instanceof DOMNode) {
-				NMod::doModule( $nv, $mml, $a, $p, 1 );
-			}
-		}
-	}
-
 	public static function asModule($ctrl, $view, $strip, $a = array(), $p )
 	{
 		if ($strip == "1") {
@@ -79,7 +64,7 @@ class NMod
 				$app->enqueueMessage( 'Spurious output while evaluating <code>' . print_r($ctrl,true) . '</code> with <pre>' . $output . '</pre>', 'error');
 			}
 		}
-		NMod::doModules($nv,$a,$p);
+		$nv->doModules($a,$p);
 		return $nv->show(FALSE); //don't want to render as document, yet.
 	}
 

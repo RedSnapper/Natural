@@ -471,6 +471,46 @@ class NView
 			$this->doMsg("NView: object constructor only uses instances of NView or subclasses of DOMNode.");
 		}
 	}
+
+	public function doModules($a = array(),$p)
+	{
+		$mml = $this->get("//*[@data-jmod]");
+		if ($mml instanceof DOMNodeList) {
+			$count = $mml->length;
+			for($pos=$count; $pos > 0 ; $pos-- ) { //xpath uses 1-indexing
+				NMod::doModule( $this, $mml->item($pos - 1), $a, $p, $pos );
+			}
+		} else {
+			if ($mml instanceof DOMNode) {
+				NMod::doModule( $this, $mml, $a, $p, 1 );
+			}
+		}
+	}
+
+	public function doComponents() {
+		$entries = $this->xp->query("//*[@data-comp]");
+		if ($entries->length > 0) {
+			$app = JFactory::getApplication();
+			$menu = $app->getMenu();
+			$nc = new NComposite();
+			$nc->pushState();
+			foreach($entries as $entry) {
+				$alias = $this->get('@data-comp',$entry);
+				$mi = $menu->getItems('alias',$alias,true);
+				if ( !empty($mi)) {
+					ob_start();
+					$nc->doComposite($mi);
+					$this->set('.',ob_get_contents(),$entry);
+					ob_end_clean();
+				} else {
+					$this->doMsg("Alias '" . $alias . "' not found while adding data-comp.");
+				}
+			}
+			$nc->popState();
+			$this->set("//*[@data-comp]");
+		}
+	}
+
 	private function fixHrefs() {
 		//This is a lightweight alias translator using !home or whatever.
 		$xq = "(//*)[starts-with(@href,'!')]";
@@ -490,7 +530,7 @@ class NView
 						$url = $base . $mi->route;
 						$urls[$alias]=$url;
 					} else {
-						$this->doMsg("Alias '" . $alias . "' not founding while fixing !alias hrefs.");
+						$this->doMsg("Alias '" . $alias . "' not found while fixing !alias hrefs.");
 					}
 				}
 				$this->set('@href',$url,$entry);
