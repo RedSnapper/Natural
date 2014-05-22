@@ -521,8 +521,13 @@ class NView
 			$menu = JApplication::getInstance('site')->getMenu();	//assumes front-end..
 			foreach($entries as $entry)
 			{
-				$alias = substr($this->get('@href',$entry),1); //'!foo' --> 'foo'
 				$url="#";
+				$alias = substr($this->get('@href',$entry),1); //'!foo' --> 'foo'
+				$back = strpbrk($alias,'?#&');
+				if ( $back === false ) {
+					$back="";
+				}
+				$alias = substr($alias,0,-strlen($back));
 				if (isset($urls[$alias])) {
 					$url=$urls[$alias];
 				} else {
@@ -534,7 +539,7 @@ class NView
 						$this->doMsg("Alias '" . $alias . "' not found while fixing !alias hrefs.");
 					}
 				}
-				$this->set('@href',$url,$entry);
+				$this->set('@href',$url . $back,$entry);
 			}
 		}
 	}
