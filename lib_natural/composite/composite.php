@@ -64,14 +64,12 @@ class NComposite
 	protected $j_menu;
 	protected $j_lang;
 
-	public function doComposite($i) {
+	public function doComposite($i, &$nv = null, $node = null) {
 		if ($i->type === "alias") {
 			$ni = $i->params['aliasoptions'];
 			$i = $this->j_menu->getItem($ni);
 		}
 		CompositeJApplication::setTemplate($this->j_app);
-		$this->j_menu->setActive($i->id);
-		$this->j_app->input->set('Itemid',$i->id);
 		$layout="default";
 		foreach ($i->query as $key => $value) {
 			if ($key === "id") {
@@ -82,7 +80,32 @@ class NComposite
 			}
 			$this->j_app->input->set($key,$value);
 		}
+		$this->j_menu->setActive($i->id);
+		$this->j_app->input->set('Itemid',$i->id);
 		$option = $i->query['option'];
+		$view = $i->query['view'];
+		if (! is_null($node) && ! is_null($nv)) {
+			$id = $nv->get("@data-id",$node);
+			$nlayout = $nv->get("@data-layout",$node);
+			$noption = $nv->get("@data-option",$node);
+			$nview = $nv->get("@data-view",$node);
+			if ( !empty($id) ) {
+				$this->j_app->input->set("a_id",$id);
+				$this->j_app->input->set("id",$id);
+				$this->j_menu->setActive($id);
+				$this->j_app->input->set('Itemid',$id);
+			}
+			if ( !empty($nlayout) ) {
+				$this->j_app->input->set("layout",$nlayout);
+				$layout = $nlayout;
+			}
+			if ( !empty($noption) ) {
+				$option = $noption;
+			}
+			if ( !empty($nview) ) {
+				$view = $nview;
+			}
+		}
 		$cbase = substr($option,4);
 		$ccbase = ucfirst($cbase);
 		$cclass= $ccbase . 'Controller';
@@ -90,13 +113,12 @@ class NComposite
 		$cpath = JPATH_BASE . '/components/' . $option ;
 		$this->j_lang->load($option);
 		$this->j_lang->load($option,$cpath);
-		$vname = $i->query['view'];
 		$dpath = 'components.' . $option;
-		$tpath = JPATH_THEMES . '/' . $template . '/' . $this->j_type . '/' . $option .'/'. $vname .'/';
+		$tpath = JPATH_THEMES . '/' . $template . '/' . $this->j_type . '/' . $option .'/'. $view .'/';
 //There must be a better way..
 		JLoader::import($dpath. '.controller', JPATH_BASE );
-		JLoader::import($dpath . '.models.' . $vname, JPATH_BASE );
-		JLoader::import($dpath . '.models.' . $vname . 's', JPATH_BASE );
+		JLoader::import($dpath . '.models.' . $view, JPATH_BASE );
+		JLoader::import($dpath . '.models.' . $view . 's', JPATH_BASE );
 		JLoader::import($dpath . '.models.archive', JPATH_BASE );
 		JLoader::import($dpath . '.models.category', JPATH_BASE );
 		JLoader::import($dpath . '.models.categories', JPATH_BASE );
@@ -106,7 +128,7 @@ class NComposite
 		JFormHelper::addFormPath($cpath . '/models/' . 'forms');
 		JFormHelper::addFormPath($cpath . '/models/' . 'form');
 		$jc = new $cclass(array( 'base_path' => $cpath, 'view_path' => $cpath . '/views/'));
-		$jv = NComposite::makeView($jc, $ccbase, $cpath, $tpath, $layout, $vname , $this->j_type );
+		$jv = NComposite::makeView($jc, $ccbase, $cpath, $tpath, $layout, $view , $this->j_type );
 		try {
 			$jc->display();
 		}

@@ -7,12 +7,12 @@
  License: GNU/GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
 -->
   <update>
-    <name>Natural 2014.052201</name>
+    <name>Natural 2014.052202</name>
     <description>Natural Package - Licenses are normalised and corrected.</description>
     <element>pkg_Natural</element>
     <type>package</type>
     <client>site</client>
-    <version>2014.052201</version>
+    <version>2014.052202</version>
     <downloads>
       <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
     </downloads>
@@ -21,12 +21,12 @@
     <targetplatform name="joomla" version="3.2" min_dev_level="0" />
   </update>
   <update>
-    <name>Natural 2014.052201</name>
+    <name>Natural 2014.052202</name>
     <description>Natural Package - composite aliases</description>
     <element>pkg_Natural</element>
     <type>package</type>
     <client>site</client>
-    <version>2014.052201</version>
+    <version>2014.052202</version>
     <downloads>
       <downloadurl type="full" format="zip">https://raw.githubusercontent.com/RedSnapper/Natural/master/pkg_natural.zip</downloadurl>
     </downloads>

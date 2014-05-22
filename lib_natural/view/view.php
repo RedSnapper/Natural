@@ -499,7 +499,7 @@ class NView
 				$mi = $menu->getItems('alias',$alias,true);
 				if ( !empty($mi)) {
 					ob_start();
-					$nc->doComposite($mi);
+					$nc->doComposite($mi,$entry);
 					$this->set('.',ob_get_contents(),$entry);
 					ob_end_clean();
 				} else {
