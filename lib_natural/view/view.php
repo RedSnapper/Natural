@@ -526,8 +526,9 @@ class NView
 				$back = strpbrk($alias,'?#&');
 				if ( $back === false ) {
 					$back="";
+				} else {
+					$alias = substr($alias,0,-strlen($back));
 				}
-				$alias = substr($alias,0,-strlen($back));
 				if (isset($urls[$alias])) {
 					$url=$urls[$alias];
 				} else {
